@@ -9,11 +9,14 @@ use Filament\Resources\Pages\ListRecords;
 class ListUsers extends ListRecords
 {
     protected static string $resource = UserResource::class;
+    protected static ?string $title = 'مدیریت کاربران';
 
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make(),
+            CreateAction::make()
+                ->label('کاربر جدید')
+                ->icon('heroicon-o-user-plus'),
         ];
     }
 }

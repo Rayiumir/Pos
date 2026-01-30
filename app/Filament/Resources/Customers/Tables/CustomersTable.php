@@ -17,11 +17,14 @@ class CustomersTable
         return $table
             ->columns([
                 TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('نام و نام خانوادگی'),
                 TextColumn::make('mobile')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('موبایل'),
                 TextColumn::make('phone')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('شماره تلفن'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

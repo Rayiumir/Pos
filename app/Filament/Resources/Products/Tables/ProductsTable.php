@@ -17,13 +17,16 @@ class ProductsTable
         return $table
             ->columns([
                 TextColumn::make('title')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('عنوان'),
                 TextColumn::make('price')
                     ->money()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('قیمت'),
                 TextColumn::make('stock')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('موجودی'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

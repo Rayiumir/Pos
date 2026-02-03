@@ -11,15 +11,19 @@ class ProductInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('title'),
+                TextEntry::make('title')->label('عنوان محصول'),
                 TextEntry::make('price')
+                    ->label('قیمت محصول')
                     ->money(),
                 TextEntry::make('stock')
+                    ->label('موجودی محصول')
                     ->numeric(),
                 TextEntry::make('created_at')
+                    ->label('ایجاد شده در')
                     ->dateTime()
                     ->placeholder('-'),
                 TextEntry::make('updated_at')
+                    ->label('به روز رسانی در')
                     ->dateTime()
                     ->placeholder('-'),
             ]);

@@ -1,24 +1,25 @@
 <?php
 
-namespace App\Filament\Resources\Customers\Schemas;
+namespace App\Filament\Resources\Orders\Schemas;
 
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
-class CustomerInfolist
+class OrderInfolist
 {
     public static function configure(Schema $schema): Schema
     {
         return $schema
             ->components([
-                TextEntry::make('name')->label('نام و نام خانوادگی'),
-                TextEntry::make('mobile')->label('موبایل'),
-                TextEntry::make('phone')
-                    ->label('تلفن')
-                    ->placeholder('-'),
-                TextEntry::make('address')
-                    ->label('آدرس')
-                    ->columnSpanFull(),
+                TextEntry::make('customer_id')
+                    ->label('شناسه مشتری')
+                    ->numeric(),
+                TextEntry::make('total_price')
+                    ->label('قیمت کل')
+                    ->money(),
+                TextEntry::make('date')
+                    ->label('تاریخ سفارش')
+                    ->date(),
                 TextEntry::make('created_at')
                     ->label('ایجاد شده در')
                     ->dateTime()

@@ -18,7 +18,7 @@ class OrdersTable
             ->columns([
                 TextColumn::make('customer.name')
                     ->numeric()
-                    ->label('شناسه مشتری')
+                    ->label(' مشتری')
                     ->sortable(),
                 TextColumn::make('total_price')
                     ->money()

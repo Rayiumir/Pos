@@ -12,12 +12,15 @@ class ProductForm
         return $schema
             ->components([
                 TextInput::make('title')
+                    ->label('عنوان محصول')
                     ->required(),
                 TextInput::make('price')
+                    ->label('قیمت محصول')
                     ->required()
                     ->numeric()
                     ->prefix('$'),
                 TextInput::make('stock')
+                    ->label('موجودی محصول')
                     ->required()
                     ->numeric(),
             ]);

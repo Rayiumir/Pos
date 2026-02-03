@@ -14,12 +14,15 @@ class OrderForm
         return $schema
             ->components([
                 Select::make('customer_id')
-                    ->relationship('customer', 'name'),
+                    ->relationship('customer', 'name')
+                    ->label('نام مشتری'),
                 TextInput::make('total_price')
+                    ->label('قیمت کل')
                     ->required()
                     ->numeric()
                     ->prefix('$'),
                 DatePicker::make('date')
+                    ->label('تاریخ سفارش')
                     ->required(),
             ]);
     }

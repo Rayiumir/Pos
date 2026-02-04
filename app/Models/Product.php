@@ -11,4 +11,9 @@ class Product extends Model
         'price',
         'stock'
     ];
+
+    public function orderdetail()
+    {
+        return $this->hasMany(OrderDetail::class);
+    }
 }

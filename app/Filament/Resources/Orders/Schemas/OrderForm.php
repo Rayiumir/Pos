@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Orders\Schemas;
 use App\Models\Customer;
 use App\Models\Product;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -22,6 +23,8 @@ class OrderForm
         return $schema
             ->components([
                 Section::make()
+                    ->columnSpanFull()
+                    ->columns(4)
                     ->description('اطلاعات مشتری')
                     ->schema([
                         Select::make('customer_id')
@@ -34,26 +37,29 @@ class OrderForm
                                 $set('phone', $customer->phone ?? null);
                                 $set('address', $customer->address ?? null);
                             }),
-                        TextInput::make('mobile')
+                        Placeholder::make('mobile')
                             ->label('موبایل')
-                            ->disabled(),
-                        TextInput::make('phone')
+                            ->content(fn(Get $get) => Customer::find($get('customer_id'))?->mobile ?? '-'),
+                        Placeholder::make('phone')
                             ->label('تلفن')
-                        ->disabled(),
-                        Textarea::make('address')
+                        ->content(fn(Get $get) => Customer::find($get('customer_id'))?->phone ?? '-'),
+                        Placeholder::make('address')
                             ->label('آدرس')
-                        ->disabled(),
-                    ])->columns(2),
+                            ->content(fn(Get $get) => Customer::find($get('customer_id'))?->address ?? '-'),
+                    ]),
                 Section::make()
-                ->schema([
-                    Repeater::make('orderdetail')
+                    ->columnSpanFull()
+                    ->schema([
+                        Repeater::make('orderdetails')
                         ->relationship()
                         ->label('جزئیات سفارش')
+                            ->columns(4)
                         ->schema([
                             Select::make('product_id')
                             ->label('نام محصول')
                             ->relationship('product', 'title')
-                                ->reactive()
+                            ->reactive()
+                                ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                             ->afterStateUpdated(function ($state, Set $set, Get $get){
                                 $product = Product::find($state);
                                 $price = $product->price ?? 0;
@@ -63,13 +69,17 @@ class OrderForm
                                 $subtotal = $price * $qty;
                                 $set('subtotal', $subtotal);
 
-                                $items = $get('../../orderdetail') ?? [];
+                                $items = $get('../../orderdetails') ?? [];
                                 $total = collect($items)->sum(fn($item) => $item['subtotal'] ?? 0);
                                 $set('../../total_price', $total);
 
                             }),
                             TextInput::make('price')
-                                ->label('قیمت محصول'),
+                                ->label('قیمت محصول')
+                                ->disabled()
+                                ->readOnly()
+                                ->numeric()
+                                ->formatStateUsing(fn($state, Get $get) => $state ?? Product::find($get('product_id'))?->price ?? 0),
                             TextInput::make('qty')
                             ->label('تعداد محصول')
                             ->numeric()
@@ -79,23 +89,25 @@ class OrderForm
                                 $price = $get('price') ?? 0;
                                 $set('subtotal', $price * $state);
 
-                                $items = $get('../../orderdetail') ?? [];
+                                $items = $get('../../orderdetails') ?? [];
                                 $total = collect($items)->sum(fn($item) => $item['subtotal'] ?? 0);
                                 $set('../../total_price', $total);
                             }),
                             TextInput::make('subtotal')
                             ->label('جمع جزء')
-                        ])->columns(2),
+                                ->disabled()
+                                ->dehydrated(),
+                        ]),
                     ]),
                 Section::make()
+                    ->columnSpanFull()
                     ->schema([
                         TextInput::make('total_price')
                             ->label('قیمت کل')
-                            ->required()
-                            ->numeric()
+                            ->disabled()
+                            ->dehydrated()
                             ->prefix('$'),
                         DatePicker::make('date')
-                            ->required()
                             ->disabled()
                             ->hiddenLabel()
                             ->dehydrated()

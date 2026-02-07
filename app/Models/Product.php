@@ -9,7 +9,8 @@ class Product extends Model
     protected $fillable = [
         'title',
         'price',
-        'stock'
+        'stock',
+        'image'
     ];
 
     public function orderdetails()

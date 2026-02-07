@@ -2,8 +2,10 @@
 
 namespace App\Filament\Resources\Products\Schemas;
 
+use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
+use Filament\Tables\Columns\ImageColumn;
 
 class ProductInfolist
 {
@@ -11,7 +13,10 @@ class ProductInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('title')->label('عنوان محصول'),
+                ImageEntry::make('image')
+                    ->label('عکس محصول'),
+                TextEntry::make('title')
+                    ->label('عنوان محصول'),
                 TextEntry::make('price')
                     ->label('قیمت محصول')
                     ->money(),

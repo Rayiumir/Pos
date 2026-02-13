@@ -12,6 +12,7 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use App\Models\Product;
@@ -75,6 +76,7 @@ class OrderDetailRelationManager extends RelationManager
 
         return $table
             ->columns([
+                ImageColumn::make('product.image'),
                 TextColumn::make('product.title')
                     ->label('نام محصول')
                     ->searchable()

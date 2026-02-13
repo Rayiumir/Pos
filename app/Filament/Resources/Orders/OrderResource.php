@@ -57,4 +57,5 @@ class OrderResource extends Resource
             OrderDetailRelationManager::class
         ];
     }
+
 }

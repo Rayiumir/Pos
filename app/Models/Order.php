@@ -9,7 +9,11 @@ class Order extends Model
     protected $fillable = [
         'customer_id',
         'total_price',
-        'date'
+        'date',
+        'status',
+        'discount',
+        'discount_amount',
+        'total_payment'
     ];
 
     public function customer(): \Illuminate\Database\Eloquent\Relations\BelongsTo

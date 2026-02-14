@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Orders\Schemas;
 
 use App\Models\Customer;
 use App\Models\Product;
+use Filament\Actions\Action;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
@@ -87,8 +88,13 @@ class OrderForm
                                 TextInput::make('subtotal')
                                     ->label('جمع جزء')
                                     ->disabled()
-                                    ->dehydrated(),
-                            ]),
+                                    ->dehydrated()
+                                    ->readOnly(),
+                            ])->hiddenLabel()
+                        ->addAction(fn(Action $action) => $action
+                            ->label('افزودن محصول')
+                            ->color('primary')
+                            ->icon('heroicon-o-plus')),
                     ]),
                 Section::make()
                     ->columnSpan(1)
@@ -137,19 +143,28 @@ class OrderForm
                             $discount_amount = $total_price * $discount / 100;
                             $set('discount_amount', $discount_amount);
                             $set('total_payment', $total_price - $discount_amount);
-                        }),
+                        })->suffix('%')
+                        ->default(0)
+                        ->numeric()
+                        ->minValue(1)
+                        ->maxValue(100),
                         TextInput::make('discount_amount')
                         ->label('مبلغ تخفیف')
                         ->disabled()
-                        ->dehydrated(),
+                        ->dehydrated()
+                            ->prefix('$'),
                         TextInput::make('total_payment')
                         ->label('کل پرداختی')
-                        ->dehydrated(),
+                        ->dehydrated()
+                        ->disabled()
+                        ->default(0)
+                        ->prefix('$'),
                         TextInput::make('total_price')
                             ->label('قیمت کل')
                             ->disabled()
-                            ->dehydrated()
-                            ->prefix('$')->columnSpan(2),
+                            ->readOnly()
+                            ->prefix('$')
+                            ->columnSpan(2),
                     ])->columns(3),
             ]);
     }

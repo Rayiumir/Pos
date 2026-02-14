@@ -7,6 +7,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -23,6 +24,31 @@ class OrdersTable
                 TextColumn::make('total_price')
                     ->money()
                     ->label('قیمت کل')
+                    ->sortable(),
+                TextColumn::make('discount')
+                    ->label('تخفیف')
+                    ->sortable(),
+                TextColumn::make('discount_amount')
+                    ->label('مبلغ تخفیف')
+                    ->sortable(),
+                TextColumn::make('total_payment')
+                    ->label('کل پرداختی')
+                    ->sortable(),
+                BadgeColumn::make('status')
+                    ->label('وضعیت')
+                    ->colors([
+                        'gray' => 'new',
+                        'success' => 'completed',
+                        'danger' => 'canceled',
+                        'warning' => 'processing',
+                    ])
+                    ->formatStateUsing(fn ($state) => match($state) {
+                        'new' => 'جدید',
+                        'processing' => 'در حال پردازش',
+                        'canceled' => 'لغو شده',
+                        'completed' => 'تکمیل شده',
+                        default => $state,
+                    })
                     ->sortable(),
                 TextColumn::make('date')
                     ->date()

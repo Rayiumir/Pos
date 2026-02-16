@@ -17,6 +17,8 @@ class OrdersTable
     {
         return $table
             ->columns([
+                TextColumn::make('id')
+                    ->label(' شناسه'),
                 TextColumn::make('customer.name')
                     ->numeric()
                     ->label(' مشتری')

@@ -105,9 +105,7 @@ class OrderDetailRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-//                CreateAction::make()
-//                    ->label('سفارش جدید')
-//                    ->icon('heroicon-o-plus'),
+                //
             ])
             ->bulkActions([
                 BulkActionGroup::make([

@@ -52,6 +52,36 @@ class OrdersTable
                         default => $state,
                     })
                     ->sortable(),
+                BadgeColumn::make('payment_status')
+                    ->label('وضعیت پرداخت')
+                    ->colors([
+                        'success' => 'paid',
+                        'gray' => 'unpaid',
+                        'danger' => 'failed',
+                    ])
+                    ->formatStateUsing(fn ($state) => match($state) {
+                        'paid' => 'پرداخت شده',
+                        'unpaid' => 'پرداخت نشده',
+                        'failed' => 'ناموفق',
+                        default => $state,
+                    })
+                    ->sortable(),
+                BadgeColumn::make('payment_method')
+                    ->label('درگاه پرداخت')
+                    ->colors([
+                        'gray' => 'cash',
+                        'success' => 'credit',
+                        'danger' => 'debit',
+                        'warning' => 'qr',
+                    ])
+                    ->formatStateUsing(fn ($state) => match($state) {
+                        'cash' => 'پول نقد',
+                        'credit' => 'کارت اعتباری',
+                        'debit' => 'کارت نقدی',
+                        'qr' => 'کیو آر کد',
+                        default => $state,
+                    })
+                    ->sortable(),
                 TextColumn::make('date')
                     ->date()
                     ->label('تاریخ سفارش')

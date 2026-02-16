@@ -3,19 +3,21 @@
 namespace App\Filament\Resources\Orders\Schemas;
 
 use App\Models\Customer;
+use App\Models\PaymentMethod;
+use App\Models\PaymentStatus;
 use App\Models\Product;
+use App\Models\Status;
 use Filament\Actions\Action;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
-use Tiptap\Nodes\Text;
+
 
 class OrderForm
 {
@@ -129,12 +131,10 @@ class OrderForm
 
                         Select::make('status')
                             ->label('وضعیت')
-                        ->options([
-                            'new' => 'جدید',
-                            'processing' => 'در حال پردازش',
-                            'canceled' => 'لغو شده',
-                            'completed' => 'تکمیل شده'
-                        ])->default('new'),
+                            ->options(
+                                Status::class
+                            )->default('new'),
+
                         TextInput::make('discount')
                         ->label('تخفیف')
                         ->afterStateUpdated(function ($state, Set $set, Get $get){
@@ -146,26 +146,38 @@ class OrderForm
                         })->suffix('%')
                         ->default(0)
                         ->numeric()
-                        ->minValue(1)
+                        ->minValue(0)
                         ->maxValue(100),
+
                         TextInput::make('discount_amount')
                         ->label('مبلغ تخفیف')
                         ->disabled()
                         ->dehydrated()
                             ->prefix('$'),
+
+                        TextInput::make('total_price')
+                            ->label('قیمت کل')
+                            ->disabled()
+                            ->readOnly()
+                            ->prefix('$'),
+
                         TextInput::make('total_payment')
                         ->label('کل پرداختی')
                         ->dehydrated()
                         ->disabled()
                         ->default(0)
                         ->prefix('$'),
-                        TextInput::make('total_price')
-                            ->label('قیمت کل')
-                            ->disabled()
-                            ->readOnly()
-                            ->prefix('$')
-                            ->columnSpan(2),
-                    ])->columns(3),
+
+                        Select::make('payment_status')
+                            ->label('وضعیت پرداخت')
+                            ->options(PaymentStatus::class),
+
+                        Select::make('payment_method')
+                            ->label('درگاه پرداخت')
+                            ->options(PaymentMethod::class)
+                        ->columnSpan(2)
+
+                    ])->columns(4),
             ]);
     }
 }

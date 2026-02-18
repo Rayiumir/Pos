@@ -6,11 +6,14 @@ use App\Models\Order;
 use Filament\Actions\Exports\ExportColumn;
 use Filament\Actions\Exports\Exporter;
 use Filament\Actions\Exports\Models\Export;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Support\Number;
 
 class OrderExporter extends Exporter
 {
     protected static ?string $model = Order::class;
+    protected static ?string $header = 'دانلود Excel مشتریان';
+
     public static function getColumns(): array
     {
         return [
@@ -47,4 +50,5 @@ class OrderExporter extends Exporter
 
         return $body;
     }
+
 }

@@ -112,6 +112,10 @@ class OrdersTable
             ])
             ->headerActions([
                 ExportAction::make()
+                    ->label('دانلود Excel مشتریان')
+                    ->color('success')
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->modalHeading('دانلود Excel مشتریان')
                     ->exporter(OrderExporter::class)
             ]);
     }

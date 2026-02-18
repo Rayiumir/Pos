@@ -32,6 +32,7 @@ class AdminPanelProvider extends PanelProvider
                 url: asset('css/filament/rtl.css'),
                 provider: LocalFontProvider::class,
             )
+            ->brandName('پایانه فروش')
             ->default()
             ->id('admin')
             ->path('admin')

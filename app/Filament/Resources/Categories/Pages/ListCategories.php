@@ -9,11 +9,14 @@ use Filament\Resources\Pages\ListRecords;
 class ListCategories extends ListRecords
 {
     protected static string $resource = CategoryResource::class;
+    protected static ?string $title = 'لیست دسته بندی';
 
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make(),
+            CreateAction::make()
+                ->label('دسته بندی جدید')
+                ->icon('heroicon-o-plus'),
         ];
     }
 }

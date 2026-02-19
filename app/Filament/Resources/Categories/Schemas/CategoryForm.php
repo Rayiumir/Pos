@@ -14,10 +14,13 @@ class CategoryForm
         return $schema
             ->components([
                 TextInput::make('title')
+                    ->label('عنوان دسته بندی')
                     ->required(),
                 FileUpload::make('image')
+                    ->label('عکس دسته بندی')
                     ->image(),
                 Toggle::make('is_active')
+                    ->label('فعالسازی')
                     ->required(),
             ]);
     }

@@ -14,13 +14,17 @@ class SubCategoryForm
         return $schema
             ->components([
                 TextInput::make('category_id')
+                    ->label('شناسه دسته بندی')
                     ->required()
                     ->numeric(),
                 TextInput::make('title')
+                    ->label('عنوان دسته بندی')
                     ->required(),
                 FileUpload::make('image')
+                    ->label('عکس دسته بندی')
                     ->image(),
                 Toggle::make('is_active')
+                    ->label('فعالسازی')
                     ->required(),
             ]);
     }

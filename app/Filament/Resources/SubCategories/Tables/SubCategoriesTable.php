@@ -18,18 +18,24 @@ class SubCategoriesTable
         return $table
             ->columns([
                 TextColumn::make('category_id')
+                    ->label('شناسه دسته بندی')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('title')
+                    ->label('عنوان دسته بندی')
                     ->searchable(),
-                ImageColumn::make('image'),
+                ImageColumn::make('image')
+                    ->label('عکس دسته بندی'),
                 IconColumn::make('is_active')
+                    ->label('فعالسازی')
                     ->boolean(),
                 TextColumn::make('created_at')
+                    ->label('ایجاد شده در')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label('به روزرسانی در')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

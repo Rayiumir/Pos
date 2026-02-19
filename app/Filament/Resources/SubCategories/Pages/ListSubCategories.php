@@ -9,11 +9,14 @@ use Filament\Resources\Pages\ListRecords;
 class ListSubCategories extends ListRecords
 {
     protected static string $resource = SubCategoryResource::class;
+    protected static ?string $title = 'لیست زیر مجموعه دسته بندی';
 
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make(),
+            CreateAction::make()
+                ->label('زیر مجموعه دسته بندی جدید')
+                ->icon('heroicon-o-plus'),
         ];
     }
 }

@@ -18,7 +18,9 @@ class BrandForm
                     ->required(),
                 FileUpload::make('image')
                     ->label('عکس برند')
-                    ->image(),
+                    ->image()
+                    ->maxSize(2048)
+                    ->directory('Pos\Brands'),
                 Toggle::make('is_active')
                     ->label('فعال سازی')
                     ->required(),

@@ -22,7 +22,9 @@ class SubCategoryForm
                     ->required(),
                 FileUpload::make('image')
                     ->label('عکس دسته بندی')
-                    ->image(),
+                    ->image()
+                    ->maxSize(2048)
+                    ->directory('Pos\SubCategories'),
                 Toggle::make('is_active')
                     ->label('فعالسازی')
                     ->required(),

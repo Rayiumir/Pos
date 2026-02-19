@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\SubCategories\Tables;
 
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
@@ -17,7 +18,7 @@ class SubCategoriesTable
     {
         return $table
             ->columns([
-                TextColumn::make('category_id')
+                TextColumn::make('category.title')
                     ->label('شناسه دسته بندی')
                     ->numeric()
                     ->sortable(),
@@ -46,6 +47,7 @@ class SubCategoriesTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+                DeleteAction::make()
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

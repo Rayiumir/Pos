@@ -13,7 +13,7 @@ class SubCategoryInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('category_id')
+                TextEntry::make('category.title')
                     ->label('شناسه دسته بندی')
                     ->numeric(),
                 TextEntry::make('title')

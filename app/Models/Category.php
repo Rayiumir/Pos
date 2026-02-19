@@ -11,4 +11,9 @@ class Category extends Model
         'image',
         'is_active'
     ];
+
+    public function subcategory()
+    {
+        return $this->hasMany(SubCategory::class);
+    }
 }

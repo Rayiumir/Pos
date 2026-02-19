@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\SubCategories\Schemas;
 
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
@@ -13,10 +14,10 @@ class SubCategoryForm
     {
         return $schema
             ->components([
-                TextInput::make('category_id')
+                Select::make('category_id')
                     ->label('شناسه دسته بندی')
-                    ->required()
-                    ->numeric(),
+                    ->relationship('category', 'title')
+                    ->required(),
                 TextInput::make('title')
                     ->label('عنوان دسته بندی')
                     ->required(),

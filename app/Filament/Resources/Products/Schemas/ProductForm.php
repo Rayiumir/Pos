@@ -3,7 +3,9 @@
 namespace App\Filament\Resources\Products\Schemas;
 
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 
 class ProductForm
@@ -12,19 +14,29 @@ class ProductForm
     {
         return $schema
             ->components([
-                FileUpload::make('image'),
                 TextInput::make('title')
-                    ->label('عنوان محصول')
                     ->required(),
                 TextInput::make('price')
-                    ->label('قیمت محصول')
                     ->required()
                     ->numeric()
                     ->prefix('$'),
                 TextInput::make('stock')
-                    ->label('موجودی محصول')
                     ->required()
                     ->numeric(),
+                FileUpload::make('image')
+                    ->image(),
+                Select::make('brand_id')
+                    ->default(null),
+                TextInput::make('category_id')
+                    ->numeric()
+                    ->default(null),
+                TextInput::make('sub_category_id')
+                    ->numeric()
+                    ->default(null),
+                Toggle::make('is_active')
+                    ->required(),
+                Toggle::make('in_stock')
+                    ->required(),
             ]);
     }
 }

@@ -10,13 +10,12 @@ use Filament\Resources\Pages\EditRecord;
 class EditProduct extends EditRecord
 {
     protected static string $resource = ProductResource::class;
-    protected static ?string $title = 'ویرایش محصول';
 
     protected function getHeaderActions(): array
     {
         return [
-            ViewAction::make()->icon('heroicon-o-eye'),
-            DeleteAction::make()->icon('heroicon-o-trash'),
+            ViewAction::make(),
+            DeleteAction::make(),
         ];
     }
 }

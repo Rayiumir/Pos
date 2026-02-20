@@ -21,6 +21,7 @@ class SubCategoryResource extends Resource
     protected static ?string $model = SubCategory::class;
     protected static ?string $navigationLabel = 'زیر مجموعه دسته بندی';
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedFolderOpen;
+    protected static string|null|\UnitEnum $navigationGroup = "مدیریت دسته بندی";
 
     protected static ?string $recordTitleAttribute = 'SubCategory';
 

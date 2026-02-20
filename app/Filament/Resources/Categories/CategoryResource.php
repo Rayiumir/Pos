@@ -22,6 +22,7 @@ class CategoryResource extends Resource
     protected static ?string $navigationLabel = 'دسته بندی';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedFolder;
+    protected static string|null|\UnitEnum $navigationGroup = "مدیریت دسته بندی";
 
     protected static ?string $recordTitleAttribute = 'Category';
 

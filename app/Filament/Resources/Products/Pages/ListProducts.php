@@ -9,14 +9,11 @@ use Filament\Resources\Pages\ListRecords;
 class ListProducts extends ListRecords
 {
     protected static string $resource = ProductResource::class;
-    protected static ?string $title = 'مدیریت محصولات';
 
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make()
-                ->label(' محصول جدید')
-                ->icon('heroicon-o-plus'),
+            CreateAction::make(),
         ];
     }
 }

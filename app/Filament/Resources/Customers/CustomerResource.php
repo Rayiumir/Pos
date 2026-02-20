@@ -21,6 +21,7 @@ class CustomerResource extends Resource
     protected static ?string $model = Customer::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;
+    protected static string|null|\UnitEnum $navigationGroup = "مدیریت کاربران";
 
     protected static ?string $recordTitleAttribute = 'Customer';
     protected static ?string $navigationLabel = 'مشتریان';

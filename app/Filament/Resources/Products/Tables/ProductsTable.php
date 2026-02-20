@@ -3,10 +3,10 @@
 namespace App\Filament\Resources\Products\Tables;
 
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -17,19 +17,14 @@ class ProductsTable
     {
         return $table
             ->columns([
-                ImageColumn::make('image')
-                    ->label('عکس محصول'),
                 TextColumn::make('title')
-                    ->searchable()
-                    ->label('عنوان'),
+                    ->searchable(),
                 TextColumn::make('price')
                     ->money()
-                    ->sortable()
-                    ->label('قیمت'),
+                    ->sortable(),
                 TextColumn::make('stock')
                     ->numeric()
-                    ->sortable()
-                    ->label('موجودی'),
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -38,6 +33,20 @@ class ProductsTable
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                ImageColumn::make('image'),
+                TextColumn::make('brand_id')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('category_id')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('sub_category_id')
+                    ->numeric()
+                    ->sortable(),
+                IconColumn::make('is_active')
+                    ->boolean(),
+                IconColumn::make('in_stock')
+                    ->boolean(),
             ])
             ->filters([
                 //
@@ -45,7 +54,6 @@ class ProductsTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
-                DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

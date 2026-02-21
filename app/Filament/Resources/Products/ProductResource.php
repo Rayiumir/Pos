@@ -20,9 +20,11 @@ class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingStorefront;
 
     protected static ?string $recordTitleAttribute = 'Product';
+    protected static ?string $navigationLabel = 'محصولات';
+    protected static string|null|\UnitEnum $navigationGroup = "مدیریت محصولات";
 
     public static function form(Schema $schema): Schema
     {

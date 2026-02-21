@@ -15,27 +15,37 @@ class ProductForm
         return $schema
             ->components([
                 TextInput::make('title')
+                    ->label('عنوان محصول')
                     ->required(),
                 TextInput::make('price')
+                    ->label('قیمت محصول')
                     ->required()
                     ->numeric()
                     ->prefix('$'),
                 TextInput::make('stock')
+                    ->label('موجودی در انبار')
                     ->required()
                     ->numeric(),
                 FileUpload::make('image')
+                    ->label('عکس محصول')
                     ->image(),
                 Select::make('brand_id')
+                    ->relationship('brand', 'title')
+                    ->label('برند محصول')
                     ->default(null),
-                TextInput::make('category_id')
-                    ->numeric()
+                Select::make('category_id')
+                    ->relationship('category', 'title')
+                    ->label('دسته بندی محصول')
                     ->default(null),
-                TextInput::make('sub_category_id')
-                    ->numeric()
+                Select::make('sub_category_id')
+                    ->relationship('subCategory', 'title')
+                    ->label('زیر دسته بندی محصول')
                     ->default(null),
                 Toggle::make('is_active')
+                    ->label('فعال بودن محصول')
                     ->required(),
                 Toggle::make('in_stock')
+                    ->label('موجود بودن محصول')
                     ->required(),
             ]);
     }

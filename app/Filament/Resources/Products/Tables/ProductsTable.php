@@ -17,35 +17,45 @@ class ProductsTable
     {
         return $table
             ->columns([
+                ImageColumn::make('image')
+                    ->label('عکس محصول'),
                 TextColumn::make('title')
+                    ->label('عنوان محصول')
                     ->searchable(),
                 TextColumn::make('price')
+                    ->label('قیمت محصول')
                     ->money()
                     ->sortable(),
                 TextColumn::make('stock')
+                    ->label('موجودی انبار')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')
+                    ->label('ایجاد شده در')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label('به روز رسانی در')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                ImageColumn::make('image'),
-                TextColumn::make('brand_id')
+                TextColumn::make('brand.title')
+                    ->label('انتخاب برند')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('category_id')
+                TextColumn::make('category.title')
+                    ->label('انتخاب دسته بندی')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('sub_category_id')
-                    ->numeric()
+                TextColumn::make('subCategory.title')
+                    ->label('انتخاب زیر دسته بندی')
                     ->sortable(),
                 IconColumn::make('is_active')
+                    ->label('فعال')
                     ->boolean(),
                 IconColumn::make('in_stock')
+                    ->label('موجودی فعال')
                     ->boolean(),
             ])
             ->filters([

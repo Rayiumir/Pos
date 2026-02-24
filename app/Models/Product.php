@@ -15,7 +15,11 @@ class Product extends Model
         'category_id',
         'sub_category_id',
         'is_active',
-        'in_stock'
+        'in_stock',
+        'sku',
+        'barcode',
+        'description',
+        'base_price'
     ];
 
     public function orderdetails()

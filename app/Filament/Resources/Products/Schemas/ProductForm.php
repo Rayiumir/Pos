@@ -41,8 +41,6 @@ class ProductForm
                         TextInput::make('barcode')
                             ->label('بارکد'),
 
-
-
                         TextInput::make('SKU')
                             ->label('واحد نگهداری کالا'),
 

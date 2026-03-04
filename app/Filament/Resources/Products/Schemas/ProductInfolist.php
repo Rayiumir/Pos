@@ -60,7 +60,7 @@ class ProductInfolist
                     ->label('بارکد')
                     ->placeholder('-'),
 
-                TextEntry::make('SKU')
+                TextEntry::make('sku')
                     ->label('واحد نگهداری کالا')
                     ->placeholder('-'),
 

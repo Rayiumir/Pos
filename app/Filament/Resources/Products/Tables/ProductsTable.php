@@ -19,38 +19,38 @@ class ProductsTable
             ->columns([
                 ImageColumn::make('image')
                     ->label('عکس محصول'),
+
                 TextColumn::make('title')
                     ->label('عنوان محصول')
                     ->searchable(),
+
                 TextColumn::make('price')
                     ->label('قیمت محصول')
                     ->money()
                     ->sortable(),
                 TextColumn::make('stock')
                     ->label('موجودی انبار')
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('sku')
+                    ->label('واحد نگهداری کالا')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
                 TextColumn::make('created_at')
                     ->label('ایجاد شده در')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 TextColumn::make('updated_at')
                     ->label('به روز رسانی در')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('brand.title')
-                    ->label('انتخاب برند')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('category.title')
-                    ->label('انتخاب دسته بندی')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('subCategory.title')
-                    ->label('انتخاب زیر دسته بندی')
-                    ->sortable(),
+
                 IconColumn::make('is_active')
                     ->label('فعال')
                     ->boolean(),

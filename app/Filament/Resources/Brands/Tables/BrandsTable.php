@@ -16,19 +16,23 @@ class BrandsTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->searchable()
             ->columns([
                 TextColumn::make('title')
-                    ->label('عنوان برند')
-                    ->searchable(),
+                    ->label('عنوان برند'),
+
                 ImageColumn::make('image')
                 ->label('عکس برند'),
+
                 IconColumn::make('is_active')
                     ->label('فعال سازی')
                     ->boolean(),
+
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()

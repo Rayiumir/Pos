@@ -15,8 +15,15 @@ class UsersTable
     {
         return $table
             ->columns([
-                TextColumn::make('name')->label('نام کاربری'),
-                TextColumn::make('email')->label('ایمیل')
+                TextColumn::make('name')
+                    ->label('نام کاربری')
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('email')
+                    ->label('ایمیل')
+                    ->searchable()
+                    ->sortable(),
             ])
             ->filters([
                 //

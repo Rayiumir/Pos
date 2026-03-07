@@ -26,6 +26,11 @@ class ProductResource extends Resource
     protected static ?string $navigationLabel = 'محصولات';
     protected static string|null|\UnitEnum $navigationGroup = "مدیریت محصولات";
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::where('is_active', true)->count();
+    }
+
     public static function form(Schema $schema): Schema
     {
         return ProductForm::configure($schema);

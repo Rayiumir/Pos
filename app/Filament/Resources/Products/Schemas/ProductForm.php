@@ -31,11 +31,11 @@ class ProductForm
 
         $brandCode = strtoupper(substr($brand->title, 0, 3));
         $catCode = strtoupper(substr($category->title, 0, 3));
-        $subcatCode = strtoupper(substr($subcategory->title, 0, 3));
+        $subCode = strtoupper(substr($subcategory->title, 0, 3));
 
-        $lastSku = Product::where('brand_id', $brand->id)
-            ->where('category_id', $category->id)
+        $lastSku = Product::where('category_id', $category->id)
             ->where('sub_category_id', $subcategory->id)
+            ->where('brand_id', $brand->id)
             ->orderBy('id', 'desc')
             ->value('sku');
 
@@ -46,7 +46,7 @@ class ProductForm
             $nextNumber = $lastNumber + 1;
         }
 
-        $sku = sprintf('SKU-%s-%s-%s-$03d', $brandCode, $catCode, $subcatCode, $nextNumber);
+        $sku = sprintf('SKU-%s-%s-%s-$03d', $brandCode, $catCode, $subCode, $nextNumber);
         $set('sku', $sku);
 
     }
@@ -97,14 +97,18 @@ class ProductForm
 
                     Select::make('brand_id')
                         ->label('برند محصول')
-                        ->relationship('brand', 'title', fn($query) => $query->where('is_active', true))
+                        ->relationship('brand',
+                            'title', fn($query) => $query->where('is_active', true)
+                        )
                         ->reactive()
                         ->afterStateUpdated(function (Get $get, Set $set){
                             static::generateSku($get, $set);
                         }),
 
                     Select::make('category_id')
-                        ->relationship('category', 'title', fn($query) => $query->where('is_active', true))
+                        ->relationship('category',
+                            'title', fn($query) => $query->where('is_active', true)
+                        )
                         ->reactive()
                         ->label('دسته بندی محصول')
                         ->afterStateUpdated(function (Get $get, Set $set){
@@ -113,7 +117,9 @@ class ProductForm
 
                     Select::make('sub_category_id')
                         ->options(function (Get $get) {
+
                             $categoryId = $get('category_id');
+
                             if (!$categoryId) {
                                 return [];
                             }

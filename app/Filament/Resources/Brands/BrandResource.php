@@ -15,7 +15,6 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-
 class BrandResource extends Resource
 {
     protected static ?string $model = Brand::class;
@@ -25,6 +24,12 @@ class BrandResource extends Resource
     protected static string|null|\UnitEnum $navigationGroup = "مدیریت محصولات";
 
     protected static ?string $recordTitleAttribute = 'Brand';
+
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::where('is_active')->count();
+    }
 
     public static function form(Schema $schema): Schema
     {

@@ -13,16 +13,33 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
+
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUsers;
-
     protected static ?string $recordTitleAttribute = 'User';
     protected static ?string $navigationLabel = 'کاربران';
     protected static string|null|\UnitEnum $navigationGroup = "مدیریت کاربران";
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+//    public static function getGloballySearchableAttributes(): array
+//    {
+//        return ['name', 'email'];
+//    }
+//    public static function getGlobalSearchResultDetails(Model $record): array
+//    {
+//        return [
+//            'name' => $record ->name,
+//            'email' => $record->email
+//        ];
+//    }
 
     public static function form(Schema $schema): Schema
     {

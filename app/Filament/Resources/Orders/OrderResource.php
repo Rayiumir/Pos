@@ -26,6 +26,21 @@ class OrderResource extends Resource
     protected static ?string $recordTitleAttribute = 'Orders';
     protected static ?string $navigationLabel = 'سفارشات';
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::where('status', 'new')->count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return static::getModel()::count() > 0 ? 'info' : 'primary';
+    }
+
+    public static function getNavigationBadgeTooltip(): ?string
+    {
+        return 'تعداد سفارشات جدیدی که ثبت شده است';
+    }
+
     public static function form(Schema $schema): Schema
     {
         return OrderForm::configure($schema);

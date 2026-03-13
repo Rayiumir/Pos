@@ -16,11 +16,13 @@ class CategoryForm
                 TextInput::make('title')
                     ->label('عنوان دسته بندی')
                     ->required(),
+
                 FileUpload::make('image')
                     ->label('عکس دسته بندی')
                     ->image()
                     ->maxSize(2048)
                     ->directory('Pos\Categories'),
+
                 Toggle::make('is_active')
                     ->label('فعالسازی')
                     ->required(),

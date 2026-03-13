@@ -22,7 +22,7 @@ class ProductResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingStorefront;
 
-    protected static ?string $recordTitleAttribute = 'Product';
+    protected static ?string $recordTitleAttribute = 'title';
     protected static ?string $navigationLabel = 'محصولات';
     protected static string|null|\UnitEnum $navigationGroup = "مدیریت محصولات";
 

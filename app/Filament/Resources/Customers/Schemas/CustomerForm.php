@@ -15,13 +15,16 @@ class CustomerForm
                 TextInput::make('name')
                     ->label('نام و نام خانوادگی')
                     ->required(),
+
                 TextInput::make('mobile')
                     ->label('موبایل')
                     ->required(),
+
                 TextInput::make('phone')
                     ->label('تلفن')
                     ->tel()
                     ->default(null),
+
                 Textarea::make('address')
                     ->label('آدرس')
                     ->required()

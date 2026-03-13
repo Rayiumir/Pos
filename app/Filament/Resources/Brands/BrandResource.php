@@ -23,7 +23,7 @@ class BrandResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedPhoto;
     protected static string|null|\UnitEnum $navigationGroup = "مدیریت محصولات";
 
-    protected static ?string $recordTitleAttribute = 'Brand';
+    protected static ?string $recordTitleAttribute = 'title';
 
 
     public static function getNavigationBadge(): ?string

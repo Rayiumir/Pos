@@ -23,7 +23,7 @@ class OrderResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedShoppingCart;
 
-    protected static ?string $recordTitleAttribute = 'Orders';
+    protected static ?string $recordTitleAttribute = 'customer_id';
     protected static ?string $navigationLabel = 'سفارشات';
 
     public static function getNavigationBadge(): ?string

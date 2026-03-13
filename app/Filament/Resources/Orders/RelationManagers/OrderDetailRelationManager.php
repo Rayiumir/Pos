@@ -24,53 +24,6 @@ class OrderDetailRelationManager extends RelationManager
     protected static ?string $relatedResource = OrderResource::class;
     protected static ?string $title = 'جزئیات سفارشات';
 
-//    public function form(Schema $schema): Schema
-//    {
-//        return $schema
-//            ->components([
-//                Select::make('product_id')
-//                    ->label('محصول')
-//                    ->relationship('product', 'title')
-//                    ->searchable()
-//                    ->required()
-//                    ->reactive()
-//                    ->afterStateUpdated(function ($state, Set $set, Get $get) {
-//                        $product = Product::find($state);
-//                        if ($product) {
-//                            $set('price', $product->price);
-//                            $qty = $get('qty') ?? 1;
-//                            $set('subtotal', $product->price * $qty);
-//                        }
-//                    }),
-//
-//                TextInput::make('price')
-//                    ->label('قیمت واحد')
-//                    ->numeric()
-//                    ->required()
-//                    ->disabled()
-//                    ->dehydrated(),
-//
-//                TextInput::make('qty')
-//                    ->label('تعداد')
-//                    ->numeric()
-//                    ->required()
-//                    ->default(1)
-//                    ->minValue(1)
-//                    ->reactive()
-//                    ->afterStateUpdated(function ($state, Get $get, Set $set) {
-//                        $price = $get('price') ?? 0;
-//                        $set('subtotal', $price * $state);
-//                    }),
-//
-//                TextInput::make('subtotal')
-//                    ->label('جمع جزء')
-//                    ->numeric()
-//                    ->required()
-//                    ->disabled()
-//                    ->dehydrated(),
-//            ]);
-//    }
-
     public function table(Table $table): Table
     {
 

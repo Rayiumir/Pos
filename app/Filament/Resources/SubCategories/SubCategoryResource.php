@@ -23,7 +23,7 @@ class SubCategoryResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedFolderOpen;
     protected static string|null|\UnitEnum $navigationGroup = "مدیریت دسته بندی";
 
-    protected static ?string $recordTitleAttribute = 'SubCategory';
+    protected static ?string $recordTitleAttribute = 'title';
 
     public static function getNavigationBadge(): ?string
     {

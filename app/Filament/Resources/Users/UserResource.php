@@ -29,17 +29,17 @@ class UserResource extends Resource
     {
         return static::getModel()::count();
     }
-//    public static function getGloballySearchableAttributes(): array
-//    {
-//        return ['name', 'email'];
-//    }
-//    public static function getGlobalSearchResultDetails(Model $record): array
-//    {
-//        return [
-//            'name' => $record ->name,
-//            'email' => $record->email
-//        ];
-//    }
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'email'];
+    }
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'name' => $record ->name,
+            'email' => $record->email
+        ];
+    }
 
     public static function form(Schema $schema): Schema
     {

@@ -15,6 +15,8 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
+
 class BrandResource extends Resource
 {
     protected static ?string $model = Brand::class;
@@ -28,7 +30,18 @@ class BrandResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::where('is_active')->count();
+        return static::getModel()::where('is_active', 'true')->count();
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['title'];
+    }
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'title' => $record ->title
+        ];
     }
 
     public static function form(Schema $schema): Schema

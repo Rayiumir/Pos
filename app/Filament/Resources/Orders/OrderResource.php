@@ -16,6 +16,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class OrderResource extends Resource
 {
@@ -34,6 +35,17 @@ class OrderResource extends Resource
     public static function getNavigationBadgeColor(): ?string
     {
         return static::getModel()::count() > 0 ? 'info' : 'primary';
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['customer_id'];
+    }
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'customer_id' => $record ->customer_id
+        ];
     }
 
     public static function getNavigationBadgeTooltip(): ?string

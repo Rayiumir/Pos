@@ -44,7 +44,7 @@ class OrderResource extends Resource
     public static function getGlobalSearchResultDetails(Model $record): array
     {
         return [
-            'customer_id' => $record ->customer_id
+            'customer_id' => $record ->customer_id  ?? 'موجود نیست'
         ];
     }
 

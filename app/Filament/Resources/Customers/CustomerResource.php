@@ -39,8 +39,8 @@ class CustomerResource extends Resource
     public static function getGlobalSearchResultDetails(Model $record): array
     {
         return [
-            'name' => $record ->name,
-            'mobile' => $record ->mobile,
+            'name' => $record ->name  ?? 'موجود نیست',
+            'mobile' => $record ->mobile  ?? 'موجود نیست',
         ];
     }
 

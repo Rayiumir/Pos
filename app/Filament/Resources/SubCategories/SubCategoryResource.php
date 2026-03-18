@@ -38,7 +38,7 @@ class SubCategoryResource extends Resource
     public static function getGlobalSearchResultDetails(Model $record): array
     {
         return [
-            'title' => $record ->title,
+            'title' => $record ->title  ?? 'موجود نیست',
         ];
     }
 

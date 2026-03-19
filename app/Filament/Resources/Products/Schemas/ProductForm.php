@@ -16,6 +16,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Event;
 
 class ProductForm
 {
@@ -25,31 +26,30 @@ class ProductForm
         $category = Category::find($get('category_id'));
         $subcategory = SubCategory::find($get('sub_category_id'));
 
-        if(!$brand || !$category || !$subcategory){
+        if (!$brand || !$category || !$subcategory) {
             return;
         }
 
-        $brandCode = strtoupper(substr($brand->title, 0, 3));
-        $catCode = strtoupper(substr($category->title, 0, 3));
-        $subCode = strtoupper(substr($subcategory->title, 0, 3));
+        $brandCode = str_pad(substr((string)$brand->id, -3), 3, '0', STR_PAD_LEFT);
+        $catCode = str_pad(substr((string)$category->id, -3), 3, '0', STR_PAD_LEFT);
+        $subcatCode = str_pad(substr((string)$subcategory->id, -3), 3, '0', STR_PAD_LEFT);
 
-        $lastSku = Product::where('category_id', $category->id)
+        $lastSku = Product::where('brand_id', $brand->id)
+            ->where('category_id', $category->id)
             ->where('sub_category_id', $subcategory->id)
-            ->where('brand_id', $brand->id)
             ->orderBy('id', 'desc')
             ->value('sku');
 
         $nextNumber = 1;
-        if ($lastSku) {
-            $parts = explode('-', $lastSku);
-            $lastNumber = intval(end($parts));
-            $nextNumber = $lastNumber + 1;
+        if ($lastSku && preg_match('/-(\d+)$/', $lastSku, $matches)) {
+            $nextNumber = (int)$matches[1] + 1;
         }
 
-        $sku = sprintf('SKU-%s-%s-%s-$03d', $brandCode, $catCode, $subCode, $nextNumber);
+        // Generate SKU with numeric codes (e.g., SKU-123-456-789-001)
+        $sku = sprintf('SKU-%s-%s-%s-%03d', $brandCode, $catCode, $subcatCode, $nextNumber);
         $set('sku', $sku);
-
     }
+
     public static function configure(Schema $schema): Schema
     {
         return $schema
@@ -72,6 +72,7 @@ class ProductForm
                             ->required()
                             ->numeric()
                             ->prefix('$'),
+
                         TextInput::make('stock')
                             ->label('موجودی در انبار')
                             ->required()
@@ -80,30 +81,32 @@ class ProductForm
                         TextInput::make('barcode')
                             ->label('بارکد'),
 
-                        TextInput::make('sku')
-                            ->label('واحد نگهداری کالا'),
-
                         RichEditor::make('description')
                             ->columnSpanFull()
                             ->label('توضیحات محصول'),
-                    ])->columns(2),
+
+                    ])->columns(3),
 
                 ])->columnSpan(2),
 
                 Section::make([
                     FileUpload::make('image')
                         ->label('عکس محصول')
-                        ->image(),
+                        ->image()
+                        ->directory('Pos\Products'),
 
                     Select::make('brand_id')
                         ->label('برند محصول')
-                        ->relationship('brand',
-                            'title', fn($query) => $query->where('is_active', true)
-                        )
+                        ->relationship('brand','title')
                         ->reactive()
-                        ->afterStateUpdated(function (Get $get, Set $set){
-                            static::generateSku($get, $set);
-                        }),
+                        ->afterStateUpdated(fn ($state, $set, $get) => self::generateSku($get, $set))
+                        ->createOptionForm([
+
+                            TextInput::make('title')->label('عنوان برند'),
+                            Toggle::make('is_active')->label('فعال سازی'),
+                            FileUpload::make('image')->label('عکس برند')
+
+                        ]),
 
                     Select::make('category_id')
                         ->relationship('category',
@@ -111,18 +114,20 @@ class ProductForm
                         )
                         ->reactive()
                         ->label('دسته بندی محصول')
-                        ->afterStateUpdated(function (Get $get, Set $set){
-                            static::generateSku($get, $set);
-                        }),
+                        ->afterStateUpdated(fn ($state, $set, $get) => self::generateSku($get, $set))
+                        ->createOptionForm([
+                            TextInput::make('title')->label('عنوان دسته بندی'),
+                            Toggle::make('is_active')->label('فعال سازی'),
+                            FileUpload::make('image')->label('عکس دسته بندی')
+                        ]),
+
 
                     Select::make('sub_category_id')
                         ->options(function (Get $get) {
 
                             $categoryId = $get('category_id');
 
-                            if (!$categoryId) {
-                                return [];
-                            }
+                            if (!$categoryId) return [];
 
                             return SubCategory::where('category_id', $categoryId)
                                 ->pluck('title', 'id');
@@ -131,9 +136,25 @@ class ProductForm
                         ->disabled(fn(callable $get) => $get('category_id') === null)
                         ->label('زیر دسته بندی محصول')
                         ->dehydrated()
-                        ->afterStateUpdated(function (Get $get, Set $set){
-                            static::generateSku($get, $set);
+                        ->afterStateUpdated(fn ($state, $set, $get) => self::generateSku($get, $set))
+                        ->createOptionForm([
+
+                            Select::make('category_id')
+                                ->label('دسته بندی')
+                                ->options(Category::pluck('title', 'id')),
+
+                            TextInput::make('title')->label('عنوان زیر دسته بندی'),
+                            Toggle::make('is_active')->label('فعال سازی'),
+                            FileUpload::make('image')->label('عکس زیر دسته بندی')
+
+                        ])->createOptionUsing(function (array $data): int{
+                            return SubCategory::create($data)->getKey();
                         }),
+
+                    TextInput::make('sku')
+                        ->label('واحد نگهداری کالا')
+                        ->disabled()
+                        ->dehydrated(),
 
                     Group::make([
                         Toggle::make('is_active')

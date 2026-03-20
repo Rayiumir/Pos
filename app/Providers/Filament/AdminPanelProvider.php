@@ -2,7 +2,9 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Resources\Widgets\BestSelling;
 use App\Filament\Resources\Widgets\CustomersWidgets;
+use App\Filament\Resources\Widgets\LastOrders;
 use App\Filament\Resources\Widgets\OrdersCharts;
 use App\Filament\Resources\Widgets\StatsWidget;
 use Filament\FontProviders\LocalFontProvider;
@@ -56,6 +58,8 @@ class AdminPanelProvider extends PanelProvider
                 StatsWidget::class,
                 OrdersCharts::class,
                 CustomersWidgets::class,
+                LastOrders::class,
+                BestSelling::class,
             ])
             ->middleware([
                 EncryptCookies::class,

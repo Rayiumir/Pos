@@ -14,13 +14,16 @@ class UserForm
         return $schema
             ->components([
                 TextInput::make('name')->required()->label('نام و نام خانوادگی'),
+
                 TextInput::make('email')->required()->label('ایمیل'),
+
                 TextInput::make('password')
                     ->label('رمز عبور')
                     ->password()
                     ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
                     ->dehydrated(fn (?string $state): bool => filled($state))
                     ->required(fn (string $operation): bool => $operation === 'create'),
+
                 Select::make('roles')
                     ->relationship('roles', 'name')
                     ->multiple()

@@ -57,6 +57,11 @@ class OrderForm
                                         $total = collect($items)->sum(fn($item) => $item['subtotal'] ?? 0);
                                         $set('../../total_price', $total);
 
+                                        $tax_rate = $get('../../tax_rate');
+                                        $tax_amount = $total * $tax_rate / 100;
+                                        $set('../../tax_amount', $tax_amount);
+                                        $set('../../total_payment', $total + $tax_amount);
+
                                         $discount = $get('../../discount');
                                         $discount_amount = $total * $discount / 100;
                                         $set('../../discount_amount', $discount_amount);
@@ -83,10 +88,14 @@ class OrderForm
                                         $total = collect($items)->sum(fn($item) => $item['subtotal'] ?? 0);
                                         $set('../../total_price', $total);
 
+                                        $tax_rate = $get('../../tax_rate');
+                                        $tax_amount = $total * $tax_rate / 100;
+                                        $set('../../tax_amount', $tax_amount);
+
                                         $discount = $get('../../discount');
                                         $discount_amount = $total * $discount / 100;
                                         $set('../../discount_amount', $discount_amount);
-                                        $set('../../total_payment', $total - $discount_amount);
+                                        $set('../../total_payment', $total - $discount_amount + $tax_amount);
                                     })
                                     ->minValue(1)
                                     ->maxValue(function (get $get){
@@ -170,6 +179,18 @@ class OrderForm
                             ->dehydrated()
                             ->prefix('$'),
 
+                        TextInput::make('tax_rate')
+                            ->label('درصد مالیات')
+                            ->default(11)
+                            ->disabled()
+                            ->suffix('%'),
+
+                        TextInput::make('tax_amount')
+                            ->label('مبلغ مالیات')
+                            ->default(0)
+                            ->disabled()
+                            ->suffix('$'),
+
                         TextInput::make('total_payment')
                         ->label('کل پرداختی')
                         ->dehydrated()
@@ -184,9 +205,9 @@ class OrderForm
                         Select::make('payment_method')
                             ->label('درگاه پرداخت')
                             ->options(PaymentMethod::class)
-                        ->columnSpan(2)
 
-                    ])->columns(4),
+
+                    ])->columns(3),
             ]);
     }
 }

@@ -16,7 +16,9 @@ class Order extends Model
         'discount_amount',
         'total_payment',
         'payment_status',
-        'payment_method'
+        'payment_method',
+        'tax_rate',
+        'tax_amount',
     ];
 
     public function customer(): \Illuminate\Database\Eloquent\Relations\BelongsTo

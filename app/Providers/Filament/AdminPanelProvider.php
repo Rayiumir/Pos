@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Resources\Widgets\CustomersWidgets;
+use App\Filament\Resources\Widgets\OrdersCharts;
 use App\Filament\Resources\Widgets\StatsWidget;
 use Filament\FontProviders\LocalFontProvider;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
@@ -55,6 +57,8 @@ class AdminPanelProvider extends PanelProvider
                 AccountWidget::class,
                 FilamentInfoWidget::class,
                 StatsWidget::class,
+                OrdersCharts::class,
+                CustomersWidgets::class,
             ])
             ->middleware([
                 EncryptCookies::class,

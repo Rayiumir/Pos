@@ -16,6 +16,7 @@ class StatsWidget extends BaseWidget
     protected function getStats(): array
     {
         return [
+
             Stat::make('کل محصولات', Product::count())
                 ->description('تعداد محصولاتی که وارد شده است')
                 ->descriptionIcon('heroicon-s-squares-2x2', IconPosition::Before)
@@ -39,6 +40,7 @@ class StatsWidget extends BaseWidget
                 ->descriptionIcon('heroicon-m-banknotes', IconPosition::Before)
                 ->chart([7,2,10,3,15,4,17])
                 ->color('danger'),
+
         ];
     }
 }

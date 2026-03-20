@@ -21,23 +21,29 @@ class OrdersTable
             ->columns([
                 TextColumn::make('id')
                     ->label(' شناسه'),
+
                 TextColumn::make('customer.name')
                     ->numeric()
                     ->label(' مشتری')
                     ->sortable(),
+
                 TextColumn::make('total_price')
                     ->money()
                     ->label('قیمت کل')
                     ->sortable(),
+
                 TextColumn::make('discount')
                     ->label('تخفیف')
                     ->sortable(),
+
                 TextColumn::make('discount_amount')
                     ->label('مبلغ تخفیف')
                     ->sortable(),
+
                 TextColumn::make('total_payment')
                     ->label('کل پرداختی')
                     ->sortable(),
+
                 BadgeColumn::make('status')
                     ->label('وضعیت')
                     ->colors([
@@ -54,6 +60,7 @@ class OrdersTable
                         default => $state,
                     })
                     ->sortable(),
+
                 BadgeColumn::make('payment_status')
                     ->label('وضعیت پرداخت')
                     ->colors([
@@ -68,6 +75,7 @@ class OrdersTable
                         default => $state,
                     })
                     ->sortable(),
+
                 BadgeColumn::make('payment_method')
                     ->label('درگاه پرداخت')
                     ->colors([
@@ -84,10 +92,12 @@ class OrdersTable
                         default => $state,
                     })
                     ->sortable(),
+
                 TextColumn::make('date')
                     ->date()
                     ->label('تاریخ سفارش')
                     ->sortable(),
+
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

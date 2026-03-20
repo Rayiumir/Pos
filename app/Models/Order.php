@@ -28,6 +28,35 @@ class Order extends Model
     {
         return $this->hasMany(OrderDetail::class);
     }
+
+    protected static function booted(): void
+    {
+        static::updated(function ($order) {
+            $originalStatus = $order->getOriginal('status');
+
+            if ($order->isDirty('status') &&
+                $order->status === Status::Completed) {
+                foreach ($order->orderdetails as $row) {
+                    $product = $row->product;
+                    if ($product) {
+                        $product->decrement('stock', $row->qty);
+                    }
+                }
+            }
+
+            if ($order->isDirty('status') &&
+                $order->status === Status::Canceled) {
+                foreach ($order->orderdetails as $row) {
+                    $product = $row->product;
+                    if ($product) {
+                        $product->increment('stock', $row->qty);
+                    }
+                }
+            }
+
+        });
+    }
+
 }
 
 enum Status: string implements HasLabel
@@ -81,3 +110,4 @@ enum PaymentMethod: string implements HasLabel
         };
     }
 }
+

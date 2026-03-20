@@ -69,6 +69,7 @@ class OrderForm
                                     ->readOnly()
                                     ->numeric()
                                     ->formatStateUsing(fn($state, Get $get) => $state ?? Product::find($get('product_id'))?->price ?? 0),
+
                                 TextInput::make('qty')
                                     ->label('تعداد محصول')
                                     ->numeric()
@@ -86,7 +87,14 @@ class OrderForm
                                         $discount_amount = $total * $discount / 100;
                                         $set('../../discount_amount', $discount_amount);
                                         $set('../../total_payment', $total - $discount_amount);
+                                    })
+                                    ->minValue(1)
+                                    ->maxValue(function (get $get){
+                                        $productID = $get('product_id');
+                                        $product = Product::find($productID);
+                                        return $product->stock ?? 0;
                                     }),
+
                                 TextInput::make('subtotal')
                                     ->label('جمع جزء')
                                     ->disabled()
@@ -150,15 +158,16 @@ class OrderForm
                         ->maxValue(100),
 
                         TextInput::make('discount_amount')
-                        ->label('مبلغ تخفیف')
-                        ->disabled()
-                        ->dehydrated()
+                            ->label('مبلغ تخفیف')
+                            ->disabled()
+                            ->dehydrated()
                             ->prefix('$'),
 
                         TextInput::make('total_price')
                             ->label('قیمت کل')
                             ->disabled()
                             ->readOnly()
+                            ->dehydrated()
                             ->prefix('$'),
 
                         TextInput::make('total_payment')

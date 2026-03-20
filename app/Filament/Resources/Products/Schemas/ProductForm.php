@@ -76,7 +76,8 @@ class ProductForm
                         TextInput::make('stock')
                             ->label('موجودی در انبار')
                             ->required()
-                            ->numeric(),
+                            ->numeric()
+                            ->dehydrated(),
 
                         TextInput::make('barcode')
                             ->label('بارکد'),

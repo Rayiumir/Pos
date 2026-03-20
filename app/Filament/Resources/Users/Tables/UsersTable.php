@@ -7,6 +7,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -25,7 +26,7 @@ class UsersTable
                     ->label('ایمیل')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('roles.name')
+                BadgeColumn::make('roles.name')
                     ->label('سطح دسترسی ها')
                     ->searchable()
                     ->sortable(),

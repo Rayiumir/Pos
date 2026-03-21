@@ -19,7 +19,12 @@ class Product extends Model
         'sku',
         'barcode',
         'description',
-        'base_price'
+        'base_price',
+        'uom_id',
+        'base_unit',
+        'purchase_unit',
+        'conversion_factor',
+        'gross_margin'
     ];
 
     public function orderdetails()
@@ -42,5 +47,8 @@ class Product extends Model
         return $this->belongsTo(SubCategory::class, 'sub_category_id');
     }
 
-
+    public function uom(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Uom::class);
+    }
 }

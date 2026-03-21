@@ -11,7 +11,7 @@ class BaseUnit extends Model
         'description',
     ];
 
-    public function uom()
+    public function uom():\Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Uom::class);
     }

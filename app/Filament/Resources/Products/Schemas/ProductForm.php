@@ -2,10 +2,12 @@
 
 namespace App\Filament\Resources\Products\Schemas;
 
+use App\Models\BaseUnit;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\SubCategory;
+use App\Models\Uom;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
@@ -59,19 +61,72 @@ class ProductForm
 
                         TextInput::make('title')
                             ->label('عنوان محصول')
-                            ->required(),
+                            ->required()
+                            ->columnSpanFull(),
 
                         TextInput::make('base_price')
                             ->label('قیمت اولیه')
                             ->required()
-                            ->numeric()
-                            ->prefix('$'),
+                            ->prefix('$')
+                            ->reactive()
+                            ->afterStateUpdated(function (callable $get, callable $set) {
+                                $set('gross_margin', ($get('price') ?? 0) - ($get('base_price') ?? 0));
+                            }),
 
                         TextInput::make('price')
                             ->label('قیمت محصول')
                             ->required()
-                            ->numeric()
-                            ->prefix('$'),
+                            ->prefix('$')
+                            ->reactive()
+                            ->afterStateUpdated(function (callable $get, callable $set) {
+                                $set('gross_margin', ($get('price') ?? 0) - ($get('base_price') ?? 0));
+                            }),
+
+                        TextInput::make('gross_margin')
+                            ->label('حاشیه سود کل')
+                            ->required()
+                            ->prefix('$')
+                            ->reactive()
+                            ->afterStateUpdated(function (callable $get, callable $set) {
+                                $set('gross_margin', ($get('price') ?? 0) - ($get('base_price') ?? 0));
+                            })
+                            ->afterStateHydrated(function (callable $get, callable $set) {
+                                $set('gross_margin', ($get('price') ?? 0) - ($get('base_price') ?? 0));
+                            }),
+
+                        Select::make('uom_id')
+                            ->relationship('uom', 'code')
+                            ->label('واحد اندازه گیری')
+                            ->reactive()
+                            ->afterStateUpdated(function ($stats, callable $set) {
+                                $uom = Uom::with('base_units')->find($stats);
+
+                                if ($uom) {
+                                    $set('base_unit', $uom->base_units?->id);
+                                    $set('purchase_unit', $uom->id);
+                                }
+                            })
+                            ->afterStateHydrated(function ($stats, callable $set) {
+                                $uom = Uom::with('base_units')->find($stats);
+
+                                if ($uom) {
+                                    $set('base_unit', $uom->base_units?->id);
+                                    $set('purchase_unit', $uom->id);
+                                }
+                            }),
+
+                        Select::make('base_unit')
+                            ->label('واحد پایه')
+                            ->reactive()
+                            ->options(BaseUnit::pluck('name', 'id')),
+
+                        Select::make('purchase_unit')
+                            ->label('واحد خرید')
+                            ->reactive()
+                            ->options(Uom::pluck('name', 'id')),
+
+                        TextInput::make('conversion_factor')
+                            ->label('ضریب تبدیل'),
 
                         TextInput::make('stock')
                             ->label('موجودی در انبار')

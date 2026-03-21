@@ -20,4 +20,9 @@ class Uom extends Model
         return $this->belongsTo(BaseUnit::class, 'base_unit_id');
     }
 
+    public function product():\Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Product::class);
+    }
+
 }

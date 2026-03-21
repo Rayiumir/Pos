@@ -9,13 +9,13 @@ use Filament\Resources\Pages\ListRecords;
 class ListBaseUnits extends ListRecords
 {
     protected static string $resource = BaseUnitResource::class;
-    protected static ?string $title = 'لیست پایگاه واحد';
+    protected static ?string $title = 'لیست واحد پایه';
 
     protected function getHeaderActions(): array
     {
         return [
             CreateAction::make()
-                ->label('ایجاد پایگاه جدید')
+                ->label('ایجاد واحد جدید')
                 ->icon('heroicon-o-plus'),
         ];
     }

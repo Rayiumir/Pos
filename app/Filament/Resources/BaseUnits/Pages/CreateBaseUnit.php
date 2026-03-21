@@ -8,5 +8,5 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateBaseUnit extends CreateRecord
 {
     protected static string $resource = BaseUnitResource::class;
-    protected static ?string $title = 'ایجاد پایگاه جدید';
+    protected static ?string $title = 'ایجاد واحد جدید';
 }

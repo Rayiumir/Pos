@@ -10,7 +10,7 @@ use Filament\Resources\Pages\EditRecord;
 class EditBaseUnit extends EditRecord
 {
     protected static string $resource = BaseUnitResource::class;
-    protected static ?string $title = 'ویرایش پایگاه واحد';
+    protected static ?string $title = 'ویرایش واحد پایه';
 
     protected function getHeaderActions(): array
     {

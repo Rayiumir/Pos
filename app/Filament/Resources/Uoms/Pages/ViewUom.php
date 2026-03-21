@@ -9,11 +9,13 @@ use Filament\Resources\Pages\ViewRecord;
 class ViewUom extends ViewRecord
 {
     protected static string $resource = UomResource::class;
+    protected static ?string $title = 'مشاهده واحد اندازه گیری';
 
     protected function getHeaderActions(): array
     {
         return [
-            EditAction::make(),
+            EditAction::make()
+                ->icon('heroicon-o-pencil'),
         ];
     }
 }

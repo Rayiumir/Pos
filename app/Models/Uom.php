@@ -15,9 +15,9 @@ class Uom extends Model
         'is_active'
     ];
 
-    public function base_unit(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function baseUnits(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(BaseUnit::class);
+        return $this->belongsTo(BaseUnit::class, 'base_unit_id');
     }
 
 }

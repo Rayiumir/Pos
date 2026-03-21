@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Uoms\Schemas;
 
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
@@ -14,18 +16,28 @@ class UomForm
         return $schema
             ->components([
                 TextInput::make('name')
+                    ->label('نام واحد')
                     ->required(),
+
                 TextInput::make('code')
+                    ->label('کد واحد')
                     ->required(),
-                TextInput::make('base_unit_id')
-                    ->required()
-                    ->numeric(),
+
+                Select::make('base_unit_id')
+                    ->relationship('baseUnits', 'name')
+                    ->label('واحد پایه')
+                    ->required(),
+
                 TextInput::make('symbol')
+                    ->label('نماد واحد')
                     ->required(),
-                Textarea::make('description')
-                    ->required()
+
+                RichEditor::make('description')
+                    ->label('توضیحات واحد')
                     ->columnSpanFull(),
+
                 Toggle::make('is_active')
+                    ->label('فعال سازی')
                     ->required(),
             ]);
     }

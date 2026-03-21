@@ -14,12 +14,11 @@ class BaseUnitForm
         return $schema
             ->components([
                 TextInput::make('name')
-                    ->label('نام')
+                    ->label('نام واحد')
                     ->required(),
 
                 RichEditor::make('description')
                     ->label('توضیحات')
-                    ->required()
                     ->columnSpanFull(),
             ]);
     }

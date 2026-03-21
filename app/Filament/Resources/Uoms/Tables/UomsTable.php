@@ -17,21 +17,34 @@ class UomsTable
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->label('نام واحد')
                     ->searchable(),
+
                 TextColumn::make('code')
+                    ->label('کد واحد')
                     ->searchable(),
-                TextColumn::make('base_unit_id')
+
+                TextColumn::make('baseUnits.name')
+                    ->label('واحد پایه')
                     ->numeric()
                     ->sortable(),
+
                 TextColumn::make('symbol')
+                    ->label('نماد واحد')
                     ->searchable(),
+
                 IconColumn::make('is_active')
+                    ->label('فعال سازی')
                     ->boolean(),
+
                 TextColumn::make('created_at')
+                    ->label('ایجاد شده در')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 TextColumn::make('updated_at')
+                    ->label('به روز شده در')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

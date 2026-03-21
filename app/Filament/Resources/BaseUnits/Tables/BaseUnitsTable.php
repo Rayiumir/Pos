@@ -16,7 +16,7 @@ class BaseUnitsTable
         return $table
             ->columns([
                 TextColumn::make('name')
-                    ->label('نام')
+                    ->label('نام واحد')
                     ->searchable(),
 
                 TextColumn::make('description')

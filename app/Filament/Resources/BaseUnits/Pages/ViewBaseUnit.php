@@ -9,7 +9,7 @@ use Filament\Resources\Pages\ViewRecord;
 class ViewBaseUnit extends ViewRecord
 {
     protected static string $resource = BaseUnitResource::class;
-    protected static ?string $title = 'مدیریت پایگاه واحد';
+    protected static ?string $title = 'مدیریت واحد پایه';
 
     protected function getHeaderActions(): array
     {

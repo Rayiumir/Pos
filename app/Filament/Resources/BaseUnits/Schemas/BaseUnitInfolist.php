@@ -12,10 +12,10 @@ class BaseUnitInfolist
         return $schema
             ->components([
                 TextEntry::make('name')
-                    ->label('نام'),
+                    ->label('نام واحد'),
 
                 TextEntry::make('description')
-                    ->label('نام')
+                    ->label('توضیحات')
                     ->columnSpanFull(),
 
                 TextEntry::make('created_at')

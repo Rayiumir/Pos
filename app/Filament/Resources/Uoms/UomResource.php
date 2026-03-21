@@ -26,6 +26,11 @@ class UomResource extends Resource
     protected static ?string $navigationLabel = 'واحد اندازه گیری';
     protected static string|null|\UnitEnum $navigationGroup = "ابزارها";
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::where('is_active', 'true')->count();
+    }
+
     public static function form(Schema $schema): Schema
     {
         return UomForm::configure($schema);

@@ -26,6 +26,11 @@ class PurchaseResource extends Resource
     protected static ?string $navigationLabel = 'خرید کنندگان';
     protected static string|null|\UnitEnum $navigationGroup = "زنجیره تامین";
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
     public static function form(Schema $schema): Schema
     {
         return PurchaseForm::configure($schema);

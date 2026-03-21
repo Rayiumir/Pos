@@ -26,6 +26,11 @@ class SupplierResource extends Resource
     protected static ?string $navigationLabel = 'تامین کنندگان';
     protected static string|null|\UnitEnum $navigationGroup = "زنجیره تامین";
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::where('is_active', 'true')->count();
+    }
+
     public static function form(Schema $schema): Schema
     {
         return SupplierForm::configure($schema);

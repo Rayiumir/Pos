@@ -24,7 +24,8 @@ class BaseUnitResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $navigationLabel = 'پایگاه واحد';
+    protected static ?string $navigationLabel = 'واحد پایه';
+    protected static string|null|\UnitEnum $navigationGroup = "ابزارها";
 
     public static function form(Schema $schema): Schema
     {

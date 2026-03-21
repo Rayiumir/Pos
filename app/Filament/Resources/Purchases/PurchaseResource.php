@@ -24,6 +24,7 @@ class PurchaseResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'purchase_number';
     protected static ?string $navigationLabel = 'خرید کنندگان';
+    protected static string|null|\UnitEnum $navigationGroup = "زنجیره تامین";
 
     public static function form(Schema $schema): Schema
     {

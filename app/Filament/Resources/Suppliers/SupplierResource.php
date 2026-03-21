@@ -24,6 +24,7 @@ class SupplierResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
     protected static ?string $navigationLabel = 'تامین کنندگان';
+    protected static string|null|\UnitEnum $navigationGroup = "زنجیره تامین";
 
     public static function form(Schema $schema): Schema
     {

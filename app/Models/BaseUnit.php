@@ -10,4 +10,10 @@ class BaseUnit extends Model
         'name',
         'description',
     ];
+
+    public function uom()
+    {
+        return $this->hasMany(Uom::class);
+    }
+
 }

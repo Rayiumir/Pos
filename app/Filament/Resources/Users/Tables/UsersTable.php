@@ -26,6 +26,7 @@ class UsersTable
                     ->label('ایمیل')
                     ->searchable()
                     ->sortable(),
+
                 TextColumn::make('roles.name')
                     ->label('سطح دسترسی ها')
                     ->badge()

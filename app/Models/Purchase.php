@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Filament\Support\Contracts\HasLabel;
 use Illuminate\Database\Eloquent\Model;
 
 class Purchase extends Model
@@ -21,4 +22,50 @@ class Purchase extends Model
         'status_payment',
         'payment_method',
     ];
+}
+
+enum Statuses: string implements HasLabel
+{
+    case Draft = 'draft';
+    case Received = 'received';
+    case Canceled = 'canceled';
+
+    public function getLabel(): ?string
+    {
+        return match ($this) {
+            self::Draft => 'پیش نویس',
+            self::Received => 'در حال رسیدگی',
+            self::Canceled => 'لغو شده',
+        };
+    }
+}
+
+enum PaymentStatuses: string implements HasLabel
+{
+    case Paid = 'paid';
+    case Unpaid = 'unpaid';
+
+    public function getLabel(): ?string
+    {
+        return match ($this) {
+            self::Paid => 'پرداخت شده',
+            self::Unpaid => 'پرداخت نشده',
+        };
+    }
+}
+
+enum PaymentMethodes: string implements HasLabel
+{
+    case Cash = 'cash';
+    case Credit = 'credit';
+    case Debit = 'debit';
+
+    public function getLabel(): ?string
+    {
+        return match ($this) {
+            self::Cash => 'پول نقد',
+            self::Credit => 'کارت اعتباری',
+            self::Debit => 'کارت نقدی',
+        };
+    }
 }

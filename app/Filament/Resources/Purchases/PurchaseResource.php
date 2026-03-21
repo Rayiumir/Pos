@@ -20,7 +20,7 @@ class PurchaseResource extends Resource
 {
     protected static ?string $model = Purchase::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentCheck;
 
     protected static ?string $recordTitleAttribute = 'purchase_number';
     protected static ?string $navigationLabel = 'خرید کنندگان';

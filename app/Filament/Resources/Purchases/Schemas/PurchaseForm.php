@@ -2,13 +2,15 @@
 
 namespace App\Filament\Resources\Purchases\Schemas;
 
+use App\Models\PaymentMethodes;
+use App\Models\PaymentStatuses;
+use App\Models\Statuses;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
-use PHPUnit\Metadata\Group;
 
 class PurchaseForm
 {
@@ -38,10 +40,9 @@ class PurchaseForm
                     ->schema([
                         Fieldset::make('اطلاعات خرید')
                             ->schema([
-                                TextInput::make('supplier_id')
+                                Select::make('supplier_id')
                                     ->label('تامین کننده')
-                                    ->required()
-                                    ->numeric(),
+                                    ->required(),
 
                                 DatePicker::make('purchase_date')
                                     ->label('تاریخ خرید'),
@@ -57,16 +58,20 @@ class PurchaseForm
                             ->schema([
                                 TextInput::make('subtotal')
                                     ->label('جمع کل')
+                                    ->disabled()
                                     ->required()
                                     ->numeric(),
 
                                 TextInput::make('tax_rate')
                                     ->label('درصد مالیات')
+                                    ->default('11')
+                                    ->disabled()
                                     ->required()
                                     ->numeric(),
 
                                 TextInput::make('tax_amount')
                                     ->label('مبلبغ مالیات')
+                                    ->disabled()
                                     ->required()
                                     ->numeric(),
 
@@ -77,30 +82,33 @@ class PurchaseForm
 
                                 TextInput::make('discount_amount')
                                     ->label('مبلغ تخفیف')
+                                    ->disabled()
                                     ->required()
                                     ->numeric(),
 
                                 TextInput::make('total_payment')
                                     ->label('کل پرداختی')
+                                    ->disabled()
                                     ->required()
                                     ->numeric(),
 
                                 Select::make('status')
                                     ->label('وضعیت')
-                                    ->options(['draft' => 'Draft', 'received' => 'Received', 'canceled' => 'Canceled'])
+                                    ->options(Statuses::class)
                                     ->default('draft')
                                     ->required(),
 
                                 Select::make('status_payment')
                                     ->label('وضعیت پرداختی')
-                                    ->options(['paid' => 'Paid', 'unpaid' => 'Unpaid'])
+                                    ->options(PaymentStatuses::class)
                                     ->required(),
 
                                 Select::make('payment_method')
                                     ->label('درگاه پرداخت')
-                                    ->options(['cash' => 'Cash', 'credit' => 'Credit', 'debit' => 'Debit'])
+                                    ->options(PaymentMethodes::class)
                                     ->default('cash')
                                     ->required(),
+
                             ])->columns(3),
                 ]),
             ]);

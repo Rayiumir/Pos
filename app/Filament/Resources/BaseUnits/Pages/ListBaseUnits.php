@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Filament\Resources\BaseUnits\Pages;
+
+use App\Filament\Resources\BaseUnits\BaseUnitResource;
+use Filament\Actions\CreateAction;
+use Filament\Resources\Pages\ListRecords;
+
+class ListBaseUnits extends ListRecords
+{
+    protected static string $resource = BaseUnitResource::class;
+    protected static ?string $title = 'لیست پایگاه واحد';
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            CreateAction::make()
+                ->label('ایجاد پایگاه جدید')
+                ->icon('heroicon-o-plus'),
+        ];
+    }
+}

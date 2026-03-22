@@ -23,7 +23,7 @@ class PurchaseForm
     {
         return DB::transaction(function () {
 
-            $year = date('Y');
+            $year = date('Y/d/m');
 
             $last = Purchase::whereYear('created_at', $year)
                 ->lockForUpdate()

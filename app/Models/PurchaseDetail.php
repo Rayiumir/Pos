@@ -14,8 +14,7 @@ class PurchaseDetail extends Model
         'total_qty',
         'price',
         'conversion',
-        'subtotal',
-        'base_unit'
+        'subtotal'
     ];
 
     public function product(): \Illuminate\Database\Eloquent\Relations\BelongsTo

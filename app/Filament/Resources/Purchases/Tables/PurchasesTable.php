@@ -2,12 +2,18 @@
 
 namespace App\Filament\Resources\Purchases\Tables;
 
+use App\Models\PaymentMethod;
+use App\Models\PaymentStatuses;
+use App\Models\Statuses;
+use App\Models\StatusPurchase;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 
 class PurchasesTable
 {
@@ -20,13 +26,20 @@ class PurchasesTable
                     ->searchable(),
 
                 TextColumn::make('user_id')
-                    ->label('کاربر')
-                    ->numeric()
+                    ->label('کاربر ایجاد کننده')
+                    ->default(Auth::id())
+                    ->formatStateUsing(function ($state) {
+
+                        if (Auth::id() === $state) {
+                            return Auth::user()->name;
+                        }
+
+                        return $state;
+                    })
                     ->sortable(),
 
-                TextColumn::make('supplier_id')
+                TextColumn::make('supplier.name')
                     ->label('تامین کننده')
-                    ->numeric()
                     ->sortable(),
 
                 TextColumn::make('purchase_date')
@@ -41,45 +54,42 @@ class PurchasesTable
 
                 TextColumn::make('subtotal')
                     ->label('جمع کل')
-                    ->numeric()
                     ->sortable(),
 
                 TextColumn::make('tax_rate')
                     ->label('درصد مالیات')
-                    ->numeric()
                     ->sortable(),
 
                 TextColumn::make('tax_amount')
                     ->label('مبلغ مالیات')
-                    ->numeric()
                     ->sortable(),
 
                 TextColumn::make('discount')
                     ->label('درصد تخفیف')
-                    ->numeric()
                     ->sortable(),
 
                 TextColumn::make('discount_amount')
                     ->label('مبلغ تخفیف')
-                    ->numeric()
                     ->sortable(),
 
                 TextColumn::make('total_payment')
                     ->label('کل پرداختی')
-                    ->numeric()
                     ->sortable(),
 
                 TextColumn::make('status')
                     ->label('وضعیت')
-                    ->badge(),
+                    ->badge()
+                    ->formatStateUsing(fn($state) => StatusPurchase::from($state)),
 
                 TextColumn::make('status_payment')
                     ->label('وضعیت پرداختی')
-                    ->badge(),
+                    ->badge()
+                    ->formatStateUsing(fn($state) => PaymentStatuses::from($state)),
 
                 TextColumn::make('payment_method')
-                    ->label('درصد مالیات')
-                    ->badge(),
+                    ->label('درگاه پرداخت')
+                    ->badge()
+                    ->formatStateUsing(fn($state) => PaymentMethod::from($state)),
 
                 TextColumn::make('created_at')
                     ->label('ایجاد شده در')
@@ -99,6 +109,7 @@ class PurchasesTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+                DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

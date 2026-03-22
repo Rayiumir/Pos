@@ -20,6 +20,7 @@ class Purchase extends Model
         'discount',
         'discount_amount',
         'total_payment',
+        'status',
         'status_payment',
         'payment_method',
     ];
@@ -34,11 +35,17 @@ class Purchase extends Model
         return $this->hasMany(PurchaseDetail::class);
     }
 
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }
 
-enum Statuses: string implements HasLabel
+enum StatusPurchase: string implements HasLabel
 {
     case Draft = 'draft';
+    case Done = 'done';
     case Received = 'received';
     case Canceled = 'canceled';
 
@@ -46,6 +53,7 @@ enum Statuses: string implements HasLabel
     {
         return match ($this) {
             self::Draft => 'پیش نویس',
+            self::Done => 'انجام شده',
             self::Received => 'در حال رسیدگی',
             self::Canceled => 'لغو شده',
         };

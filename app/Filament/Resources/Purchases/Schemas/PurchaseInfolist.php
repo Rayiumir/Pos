@@ -2,8 +2,12 @@
 
 namespace App\Filament\Resources\Purchases\Schemas;
 
+use App\Models\PaymentMethod;
+use App\Models\PaymentStatuses;
+use App\Models\StatusPurchase;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Auth;
 
 class PurchaseInfolist
 {
@@ -11,39 +15,75 @@ class PurchaseInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('purchase_number'),
+                TextEntry::make('purchase_number')
+                    ->label('شماره خرید'),
+
                 TextEntry::make('user_id')
-                    ->numeric(),
-                TextEntry::make('supplier_id')
-                    ->numeric(),
+                    ->label('توسط کاربر')
+                    ->default(Auth::id())
+                    ->formatStateUsing(function ($state) {
+
+                        if (Auth::id() === $state) {
+                            return Auth::user()->name;
+                        }
+
+                        return $state;
+
+                    }),
+
+                TextEntry::make('supplier.name')
+                    ->label('تامین کننده'),
+
                 TextEntry::make('purchase_date')
+                    ->label('تاریخ خرید')
                     ->date()
                     ->placeholder('-'),
+
                 TextEntry::make('received_date')
+                    ->label('تاریخ رسیدگی')
                     ->date()
                     ->placeholder('-'),
+
                 TextEntry::make('subtotal')
-                    ->numeric(),
+                    ->label('جمع کل'),
+
                 TextEntry::make('tax_rate')
-                    ->numeric(),
+                    ->label('درصد مالیات'),
+
                 TextEntry::make('tax_amount')
-                    ->numeric(),
+                    ->label('مبلغ مالیات'),
+
                 TextEntry::make('discount')
-                    ->numeric(),
+                    ->label('تخفیف'),
+
                 TextEntry::make('discount_amount')
-                    ->numeric(),
+                    ->label('مبلغ تخفیف'),
+
                 TextEntry::make('total_payment')
-                    ->numeric(),
+                    ->label('کل پرداختی'),
+
                 TextEntry::make('status')
-                    ->badge(),
+                    ->label('وضعیت')
+                    ->badge()
+                    ->formatStateUsing(fn($state) => StatusPurchase::from($state)),
+
                 TextEntry::make('status_payment')
-                    ->badge(),
+                    ->label('وضعیت پرداختی')
+                    ->badge()
+                    ->formatStateUsing(fn($state) => PaymentStatuses::from($state)),
+
                 TextEntry::make('payment_method')
-                    ->badge(),
+                    ->label('درگاه پرداختی')
+                    ->badge()
+                    ->formatStateUsing(fn($state) => PaymentMethod::from($state)),
+
                 TextEntry::make('created_at')
+                    ->label('ایجاد شده در')
                     ->dateTime()
                     ->placeholder('-'),
+
                 TextEntry::make('updated_at')
+                    ->label('به روز شده در')
                     ->dateTime()
                     ->placeholder('-'),
             ]);

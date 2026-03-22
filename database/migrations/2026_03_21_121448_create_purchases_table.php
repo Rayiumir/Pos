@@ -24,9 +24,9 @@ return new class extends Migration
             $table->decimal('discount', 5, 2);
             $table->decimal('discount_amount', 10, 2);
             $table->decimal('total_payment', 10, 2);
-            $table->enum('status', ['draft', 'received', 'canceled'])->default('draft');
+            $table->enum('status', ['draft', 'done', 'received', 'canceled']);
             $table->enum('status_payment', ['paid', 'unpaid']);
-            $table->enum('payment_method', ['cash', 'credit', 'debit'])->default('cash');
+            $table->enum('payment_method', ['cash', 'credit', 'debit']);
             $table->timestamps();
         });
     }

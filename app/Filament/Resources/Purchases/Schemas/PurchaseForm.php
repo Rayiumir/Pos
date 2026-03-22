@@ -6,7 +6,7 @@ use App\Models\PaymentMethodes;
 use App\Models\PaymentStatuses;
 use App\Models\Product;
 use App\Models\Purchase;
-use App\Models\Statuses;
+use App\Models\StatusPurchase;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
@@ -113,6 +113,7 @@ class PurchaseForm
                                             ->default(1)
                                             ->minValue(1)
                                             ->afterStateUpdated(function ($state ,callable $set, callable $get) {
+
                                                 $conversion = $get('conversion') ?? 1;
                                                 $Price = $get('price') ?? 0;
                                                 $set('subtotal', $state * $Price);
@@ -131,15 +132,18 @@ class PurchaseForm
                                                 $set('../../discount_amount', $discountAmount);
 
                                                 $set('../../total_payment', $total + $taxAmount - $discountAmount);
+
                                             }),
 
                                         TextInput::make('purchase_unit')
                                             ->label('واحد خرید')
+                                            ->dehydrated()
                                             ->disabled(),
 
                                         TextInput::make('price')
                                             ->label('قیمت محصول')
                                             ->prefix('$')
+                                            ->numeric()
                                             ->reactive()
                                             ->afterStateUpdated(function ($state ,callable $set, callable $get) {
 
@@ -164,15 +168,18 @@ class PurchaseForm
 
                                         TextInput::make('conversion')
                                             ->label('ضریب تبدیل')
+                                            ->dehydrated()
                                             ->disabled(),
 
                                         TextInput::make('total_qty')
                                             ->label('تعداد کل')
+                                            ->dehydrated()
                                             ->disabled(),
 
                                         TextInput::make('subtotal')
                                             ->label('جمع کل')
                                             ->disabled()
+                                            ->dehydrated()
                                             ->columnSpanFull(),
                                     ])
                                     ->columnSpanFull()
@@ -186,9 +193,10 @@ class PurchaseForm
                         Fieldset::make('اطلاعات پرداختی')
                             ->schema([
                                 TextInput::make('total_before_tax')
-                                ->label('قبل از کل مالیات')
+                                    ->label('قبل از مالیات')
                                     ->disabled()
                                     ->required()
+                                    ->dehydrated()
                                     ->numeric(),
 
                                 TextInput::make('tax_rate')
@@ -214,12 +222,13 @@ class PurchaseForm
                                     ->disabled()
                                     ->required()
                                     ->numeric()
-                                    ->readOnly(),
+                                    ->dehydrated(),
 
                                 TextInput::make('discount')
                                     ->label('درصد تخفیف')
                                     ->required()
                                     ->numeric()
+                                    ->dehydrated()
                                     ->reactive()
                                     ->afterStateUpdated(function ($state ,callable $set, callable $get) {
                                         $total = $get('total_before_tax');
@@ -239,19 +248,25 @@ class PurchaseForm
                                     ->disabled()
                                     ->required()
                                     ->numeric()
-                                    ->readOnly(),
+                                    ->dehydrated(),
 
                                 TextInput::make('total_payment')
                                     ->label('کل پرداختی')
                                     ->disabled()
                                     ->required()
                                     ->numeric()
-                                    ->readOnly(),
+                                    ->dehydrated(),
+
+                                TextInput::make('subtotal')
+                                    ->label('جمع کل')
+                                    ->disabled()
+                                    ->numeric()
+                                    ->dehydrated()
+                                    ->columnSpanFull(),
 
                                 Select::make('status')
                                     ->label('وضعیت')
-                                    ->options(Statuses::class)
-                                    ->default('draft')
+                                    ->options(StatusPurchase::class)
                                     ->required(),
 
                                 Select::make('status_payment')
@@ -262,8 +277,8 @@ class PurchaseForm
                                 Select::make('payment_method')
                                     ->label('درگاه پرداخت')
                                     ->options(PaymentMethodes::class)
-                                    ->default('cash')
                                     ->required(),
+
                             ])->columns(3),
                     ]),
             ]);

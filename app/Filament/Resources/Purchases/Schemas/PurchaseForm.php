@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Purchases\Schemas;
 use App\Models\PaymentMethodes;
 use App\Models\PaymentStatuses;
 use App\Models\Product;
+use App\Models\Purchase;
 use App\Models\Statuses;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Repeater;
@@ -14,9 +15,33 @@ use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PurchaseForm
 {
+    public static function generatePurchaseNumber()
+    {
+        return DB::transaction(function () {
+
+            $year = date('Y');
+
+            $last = Purchase::whereYear('created_at', $year)
+                ->lockForUpdate()
+                ->orderByDesc('purchase_number')
+                ->first();
+
+            if($last){
+                $lastNumbaer = intval(substr($last->purchase_number, -4));
+                $next = $lastNumbaer + 1;
+            }else{
+                $next = 1;
+            }
+
+            $number = str_pad($next, 4, "0", STR_PAD_LEFT);
+
+            return "PN-$year-$number";
+        });
+    }
     public static function configure(Schema $schema): Schema
     {
         return $schema
@@ -27,7 +52,8 @@ class PurchaseForm
                             ->disabled()
                             ->hiddenLabel()
                             ->dehydrated()
-                            ->prefix('شماره خرید :'),
+                            ->prefix('شماره خرید :')
+                            ->default(fn() => self::generatePurchaseNumber()),
 
                         Select::make('user_id')
                             ->hiddenLabel()

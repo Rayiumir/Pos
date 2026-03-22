@@ -13,6 +13,7 @@ class Purchase extends Model
         'supplier_id',
         'purchase_date',
         'received_date',
+        'total_before_tax',
         'subtotal',
         'tax_rate',
         'tax_amount',
@@ -22,6 +23,17 @@ class Purchase extends Model
         'status_payment',
         'payment_method',
     ];
+
+    public function supplier(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Supplier::class);
+    }
+
+    public function purchase_details(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(PurchaseDetail::class);
+    }
+
 }
 
 enum Statuses: string implements HasLabel

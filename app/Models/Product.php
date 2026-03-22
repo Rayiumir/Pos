@@ -51,4 +51,14 @@ class Product extends Model
     {
         return $this->belongsTo(Uom::class);
     }
+
+    public function PurchaseUnit(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Uom::class, 'purchase_unit');
+    }
+
+    public function BaseUnit(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Uom::class, 'base_unit');
+    }
 }

@@ -24,6 +24,7 @@ class ProductForm
 {
     public static function generateSku(Get $get, Set $set): void
     {
+
         $brand = Brand::find($get('brand_id'));
         $category = Category::find($get('category_id'));
         $subcategory = SubCategory::find($get('sub_category_id'));
@@ -50,6 +51,7 @@ class ProductForm
         // Generate SKU with numeric codes (e.g., SKU-123-456-789-001)
         $sku = sprintf('SKU-%s-%s-%s-%03d', $brandCode, $catCode, $subcatCode, $nextNumber);
         $set('sku', $sku);
+
     }
 
     public static function configure(Schema $schema): Schema

@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Purchases\Tables;
 use App\Models\PaymentMethod;
 use App\Models\PaymentStatuses;
 use App\Models\StatusPurchase;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;

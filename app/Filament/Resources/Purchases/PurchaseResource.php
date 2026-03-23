@@ -62,4 +62,5 @@ class PurchaseResource extends Resource
             'edit' => EditPurchase::route('/{record}/edit'),
         ];
     }
+
 }

@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('purchase_number')->unique();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('supplier_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->date('purchase_date')->nullable();
             $table->date('received_date')->nullable();
-            $table->decimal('subtotal', 10, 2);
             $table->decimal('tax_rate', 10, 2);
             $table->decimal('tax_amount', 10, 2);
             $table->decimal('discount', 5, 2);

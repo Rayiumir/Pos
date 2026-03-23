@@ -45,6 +45,15 @@ class Purchase extends Model
         return $this->belongsTo(Product::class, 'product_id');
     }
 
+//    protected static function boot()
+//    {
+//        parent::boot();
+//
+//        static::creating(function ($purchase) {
+//            $purchase->subtotal = $purchase->total_before_tax - $purchase->discount_amount;
+//        });
+//    }
+
 }
 
 enum StatusPurchase: string implements HasLabel

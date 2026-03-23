@@ -4,17 +4,14 @@ namespace App\Filament\Resources\Purchases\Tables;
 
 use App\Models\PaymentMethod;
 use App\Models\PaymentStatuses;
-use App\Models\Statuses;
 use App\Models\StatusPurchase;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use Filament\Schemas\Components\Section;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\Auth;
 
 class PurchasesTable
 {
@@ -42,10 +39,6 @@ class PurchasesTable
                 TextColumn::make('received_date')
                     ->label('تاریخ رسید')
                     ->date()
-                    ->sortable(),
-
-                TextColumn::make('subtotal')
-                    ->label('جمع کل')
                     ->sortable(),
 
                 TextColumn::make('tax_rate')

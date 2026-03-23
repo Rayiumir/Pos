@@ -197,7 +197,8 @@ class PurchaseForm
                                     ->disabled()
                                     ->required()
                                     ->dehydrated()
-                                    ->numeric(),
+                                    ->numeric()
+                                    ->afterStateUpdated(fn (callable $set, $state) => $set('subtotal', $state)),
 
                                 TextInput::make('tax_rate')
                                     ->label('درصد مالیات')
@@ -256,13 +257,6 @@ class PurchaseForm
                                     ->required()
                                     ->numeric()
                                     ->dehydrated(),
-
-                                TextInput::make('subtotal')
-                                    ->label('جمع کل')
-                                    ->disabled()
-                                    ->numeric()
-                                    ->dehydrated()
-                                    ->columnSpanFull(),
 
                                 Select::make('status')
                                     ->label('وضعیت')

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BaseUnit extends Model
 {
+
     protected $fillable = [
         'name',
         'description',

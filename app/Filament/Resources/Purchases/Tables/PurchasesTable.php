@@ -11,6 +11,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Schemas\Components\Section;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
@@ -25,17 +26,8 @@ class PurchasesTable
                     ->label('شماره خرید')
                     ->searchable(),
 
-                TextColumn::make('user_id')
+                TextColumn::make('user.name')
                     ->label('کاربر ایجاد کننده')
-                    ->default(Auth::id())
-                    ->formatStateUsing(function ($state) {
-
-                        if (Auth::id() === $state) {
-                            return Auth::user()->name;
-                        }
-
-                        return $state;
-                    })
                     ->sortable(),
 
                 TextColumn::make('supplier.name')

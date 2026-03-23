@@ -5,11 +5,9 @@ namespace App\Filament\Resources\Widgets;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
-use Faker\Provider\Base;
 use Filament\Support\Enums\IconPosition;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
-use Filament\Widgets\Widget;
 
 class StatsWidget extends BaseWidget
 {

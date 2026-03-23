@@ -61,4 +61,9 @@ class Product extends Model
     {
         return $this->belongsTo(Uom::class, 'base_unit');
     }
+
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
+    }
 }

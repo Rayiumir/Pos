@@ -3,6 +3,8 @@
 namespace App\Filament\Resources\Orders\Schemas;
 
 use Filament\Infolists\Components\TextEntry;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class OrderInfolist
@@ -11,23 +13,31 @@ class OrderInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('customer.name')
-                    ->label('مشتری')
-                    ->numeric(),
-                TextEntry::make('total_price')
-                    ->label('قیمت کل')
-                    ->money(),
-                TextEntry::make('date')
-                    ->label('تاریخ سفارش')
-                    ->date(),
-                TextEntry::make('created_at')
-                    ->label('ایجاد شده در')
-                    ->dateTime()
-                    ->placeholder('-'),
-                TextEntry::make('updated_at')
-                    ->label('به روز رسانی در')
-                    ->dateTime()
-                    ->placeholder('-'),
+                Section::make()
+                    ->schema([
+                        Fieldset::make('جزئیات سفارش')
+                            ->schema([
+
+                                TextEntry::make('customer.name')
+                                    ->label('مشتری')
+                                    ->numeric(),
+                                TextEntry::make('total_price')
+                                    ->label('قیمت کل')
+                                    ->money(),
+                                TextEntry::make('date')
+                                    ->label('تاریخ سفارش')
+                                    ->date(),
+                                TextEntry::make('created_at')
+                                    ->label('ایجاد شده در')
+                                    ->dateTime()
+                                    ->placeholder('-'),
+                                TextEntry::make('updated_at')
+                                    ->label('به روز رسانی در')
+                                    ->dateTime()
+                                    ->placeholder('-'),
+
+                            ])->columns(5),
+                    ])->columnSpanFull(),
             ]);
     }
 }

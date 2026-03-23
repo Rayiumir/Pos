@@ -3,12 +3,15 @@
 namespace App\Filament\Resources\Widgets;
 
 use App\Models\Order;
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Filament\Widgets\ChartWidget;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 
 class OrdersCharts extends ChartWidget
 {
+    use HasWidgetShield;
+
     protected ?string $heading = 'آمار سفارشات';
 
     protected function getData(): array

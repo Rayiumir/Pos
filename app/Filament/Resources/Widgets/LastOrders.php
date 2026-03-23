@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Widgets;
 
 use App\Models\Order;
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Filament\Actions\BulkActionGroup;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -11,6 +12,8 @@ use Filament\Widgets\TableWidget;
 
 class LastOrders extends TableWidget
 {
+    use HasWidgetShield;
+
     protected static ?string $heading = 'لیست مشتریان';
 
     public function table(Table $table): Table

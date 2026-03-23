@@ -5,12 +5,15 @@ namespace App\Filament\Resources\Widgets;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Filament\Support\Enums\IconPosition;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 
 class StatsWidget extends BaseWidget
 {
+    use HasWidgetShield;
+
     protected function getStats(): array
     {
         return [

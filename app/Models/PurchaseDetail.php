@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PurchaseDetail extends Model
 {
+
     protected $fillable = [
         'purchase_id',
         'product_id',

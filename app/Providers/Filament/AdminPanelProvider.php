@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Resources\Widgets\BestSelling;
+use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use App\Filament\Resources\Widgets\CustomersWidgets;
 use App\Filament\Resources\Widgets\LastOrders;
 use App\Filament\Resources\Widgets\OrdersCharts;
@@ -70,6 +71,7 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->plugins([
+                FilamentShieldPlugin::make(),
                 //
             ])
             ->authMiddleware([

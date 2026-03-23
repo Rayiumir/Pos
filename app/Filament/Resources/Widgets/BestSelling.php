@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Widgets;
 
 use App\Models\OrderDetail;
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Filament\Actions\BulkActionGroup;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -12,6 +13,8 @@ use Illuminate\Support\Facades\DB;
 
 class BestSelling extends TableWidget
 {
+    use HasWidgetShield;
+
     protected static ?string $heading = 'بهترین فروش محصولات';
 
     public function table(Table $table): Table

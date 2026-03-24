@@ -2,10 +2,9 @@
 
 namespace App\Filament\Resources\Purchases\Tables;
 
-use App\Models\PaymentMethod;
-use App\Models\PaymentStatuses;
-use App\Models\StatusPurchase;
-use Filament\Actions\Action;
+use App\Enum\Purchase\PaymentMethodPurchase;
+use App\Enum\Purchase\PaymentPurchase;
+use App\Enum\Purchase\StatusPurchase;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -65,17 +64,17 @@ class PurchasesTable
                 TextColumn::make('status')
                     ->label('وضعیت')
                     ->badge()
-                    ->formatStateUsing(fn($state) => StatusPurchase::from($state)),
+                    ->formatStateUsing(fn(StatusPurchase $state) => $state->getLabel()),
 
                 TextColumn::make('status_payment')
                     ->label('وضعیت پرداختی')
                     ->badge()
-                    ->formatStateUsing(fn($state) => PaymentStatuses::from($state)),
+                    ->formatStateUsing(fn(PaymentPurchase $state) => $state->getLabel()),
 
                 TextColumn::make('payment_method')
                     ->label('درگاه پرداخت')
                     ->badge()
-                    ->formatStateUsing(fn($state) => PaymentMethod::from($state)),
+                    ->formatStateUsing(fn(PaymentMethodPurchase $state) => $state->getLabel()),
 
                 TextColumn::make('created_at')
                     ->label('ایجاد شده در')

@@ -2,19 +2,16 @@
 
 namespace App\Filament\Resources\Purchases\Schemas;
 
-use App\Models\PaymentMethod;
-use App\Models\PaymentStatuses;
-use App\Models\StatusPurchase;
-use Filament\Forms\Components\Repeater;
+use App\Enum\Purchase\PaymentMethodPurchase;
+use App\Enum\Purchase\PaymentPurchase;
+use App\Enum\Purchase\StatusPurchase;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\TextColumn;
-use Illuminate\Support\Facades\Auth;
+
 
 class PurchaseInfolist
 {
@@ -69,10 +66,10 @@ class PurchaseInfolist
                                             ->label('قیمت محصول'),
 
                                         TextEntry::make('qty')
-                                            ->label('تعداد محصول'),
+                                            ->label('تعداد '),
 
                                         TextEntry::make('total_qty')
-                                            ->label('تعداد کل محصول'),
+                                            ->label('تعداد کل '),
 
                                         TextEntry::make('purchase_unit')
                                             ->label('واحد خرید'),
@@ -109,17 +106,17 @@ class PurchaseInfolist
                                 TextEntry::make('status')
                                     ->label('وضعیت')
                                     ->badge()
-                                    ->formatStateUsing(fn($state) => StatusPurchase::from($state)),
+                                    ->formatStateUsing(fn(StatusPurchase $state) => $state->getLabel()),
 
                                 TextEntry::make('status_payment')
                                     ->label('وضعیت پرداختی')
                                     ->badge()
-                                    ->formatStateUsing(fn($state) => PaymentStatuses::from($state)),
+                                    ->formatStateUsing(fn(PaymentPurchase $state) => $state->getLabel()),
 
                                 TextEntry::make('payment_method')
                                     ->label('درگاه پرداختی')
                                     ->badge()
-                                    ->formatStateUsing(fn($state) => PaymentMethod::from($state)),
+                                    ->formatStateUsing(fn(PaymentMethodPurchase $state) => $state->getLabel()),
 
                             ])->columns(4)
                     ])->columnSpanFull(),

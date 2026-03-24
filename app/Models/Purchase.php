@@ -2,11 +2,16 @@
 
 namespace App\Models;
 
-use Filament\Support\Contracts\HasLabel;
+use App\Enum\Purchase\PaymentMethodPurchase;
+use App\Enum\Purchase\PaymentPurchase;
+use App\Enum\Purchase\StatusPurchase;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
+
 
 class Purchase extends Model
 {
+
     protected $fillable = [
         'purchase_number',
         'user_id',
@@ -25,6 +30,12 @@ class Purchase extends Model
         'payment_method',
     ];
 
+    protected $casts = [
+        'status' => StatusPurchase::class,
+        'status_payment' => PaymentPurchase::class,
+        'payment_method' => PaymentMethodPurchase::class,
+    ];
+
     public function supplier(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Supplier::class);
@@ -32,7 +43,7 @@ class Purchase extends Model
 
     public function purchase_details(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(PurchaseDetail::class);
+        return $this->hasMany(PurchaseDetail::class, 'purchase_id');
     }
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -40,66 +51,33 @@ class Purchase extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function product(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+
+    protected static function booted(): void
     {
-        return $this->belongsTo(Product::class, 'product_id');
+
+        static::updated(function ($purchase) {
+
+            if ($purchase->isDirty('status') &&
+                $purchase->status === StatusPurchase::Done) {
+                foreach ($purchase->purchase_details as $row) {
+                    $product = $row->product;
+                    if ($product) {
+                        $product->decrement('stock', $row->total_qty);
+                    }
+                }
+            }
+
+            if ($purchase->isDirty('status') &&
+                $purchase->status === StatusPurchase::Canceled) {
+                foreach ($purchase->purchase_details as $row) {
+                    $product = $row->product;
+                    if ($product) {
+                        $product->increment('stock', $row->total_qty);
+                    }
+                }
+            }
+
+        });
     }
 
-//    protected static function boot()
-//    {
-//        parent::boot();
-//
-//        static::creating(function ($purchase) {
-//            $purchase->subtotal = $purchase->total_before_tax - $purchase->discount_amount;
-//        });
-//    }
-
-}
-
-enum StatusPurchase: string implements HasLabel
-{
-    case Draft = 'draft';
-    case Done = 'done';
-    case Received = 'received';
-    case Canceled = 'canceled';
-
-    public function getLabel(): ?string
-    {
-        return match ($this) {
-            self::Draft => 'پیش نویس',
-            self::Done => 'انجام شده',
-            self::Received => 'در حال رسیدگی',
-            self::Canceled => 'لغو شده',
-        };
-    }
-}
-
-enum PaymentStatuses: string implements HasLabel
-{
-    case Paid = 'paid';
-    case Unpaid = 'unpaid';
-
-    public function getLabel(): ?string
-    {
-        return match ($this) {
-            self::Paid => 'پرداخت شده',
-            self::Unpaid => 'پرداخت نشده',
-        };
-    }
-}
-
-enum PaymentMethodes: string implements HasLabel
-{
-    case Cash = 'cash';
-    case Credit = 'credit';
-    case Debit = 'debit';
-
-    public function getLabel(): ?string
-    {
-        return match ($this) {
-            self::Cash => 'پول نقد',
-            self::Credit => 'کارت اعتباری',
-            self::Debit => 'کارت نقدی',
-        };
-    }
 }

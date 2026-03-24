@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enum\Purchase\StatusPurchase;
 use Illuminate\Database\Eloquent\Model;
 
 class PurchaseDetail extends Model
@@ -24,6 +25,18 @@ class PurchaseDetail extends Model
     }
     public function purchase(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Purchase::class);
+        return $this->belongsTo(Purchase::class, 'purchase_id');
+    }
+
+    protected static function booted(): void
+    {
+        static::created(function ($purchase_detail) {
+            if ($purchase_detail->purchase->status === 'done') {
+                $product = $purchase_detail->product;
+                if ($product) {
+                    $product->decrement('stock', $purchase_detail->total_qty);
+                }
+            }
+        });
     }
 }

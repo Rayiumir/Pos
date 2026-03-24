@@ -2,11 +2,11 @@
 
 namespace App\Filament\Resources\Purchases\Schemas;
 
-use App\Models\PaymentMethodes;
-use App\Models\PaymentStatuses;
+use App\Enum\Purchase\PaymentMethodPurchase;
+use App\Enum\Purchase\PaymentPurchase;
+use App\Enum\Purchase\StatusPurchase;
 use App\Models\Product;
 use App\Models\Purchase;
-use App\Models\StatusPurchase;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
@@ -265,12 +265,12 @@ class PurchaseForm
 
                                 Select::make('status_payment')
                                     ->label('وضعیت پرداختی')
-                                    ->options(PaymentStatuses::class)
+                                    ->options(PaymentPurchase::class)
                                     ->required(),
 
                                 Select::make('payment_method')
                                     ->label('درگاه پرداخت')
-                                    ->options(PaymentMethodes::class)
+                                    ->options(PaymentMethodPurchase::class)
                                     ->required(),
 
                             ])->columns(3),
